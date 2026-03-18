@@ -1,0 +1,365 @@
+/* ============================================================
+   styles.css · Tostado Negro
+   La herencia CSS se aplica de forma natural:
+   - body define color, font-family, font-size, line-height
+     → todos los elementos los heredan sin redeclarar
+   - .seccion hereda y propaga a h2, p, li
+   - .oscura sobreescribe color para sus hijos
+   - currentColor en bordes e íconos
+   - em en font-size hace que los hijos escalen relativos al padre
+   ============================================================ */
+
+/* ── Variables ── */
+:root {
+  --cafe-oscuro:  #1a0f0a;
+  --cafe-medio:   #3b1f0e;
+  --cafe-claro:   #7c4a1e;
+  --crema:        #f5efe6;
+  --crema-oscura: #e8ddd0;
+  --dorado:       #c9913a;
+  --texto-base:   #2c1a0e;
+  --texto-muted:  #7a5c45;
+}
+
+/* ── Reset mínimo ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ============================================================
+   BODY — Herencia principal
+   font-family, font-size, color y line-height se heredan
+   por TODOS los elementos del documento.
+   ============================================================ */
+body {
+  font-family: 'Lato', sans-serif; /* heredado por todo */
+  font-size: 16px;                  /* base para em en hijos */
+  color: var(--texto-base);         /* heredado por todo el texto */
+  line-height: 1.7;                 /* heredado por párrafos y listas */
+  background-color: var(--crema);
+  letter-spacing: 0.01em;           /* heredado sutilmente */
+}
+
+/* ── Tipografía heredada ──
+   h1–h4 heredan color de body (o de su sección padre),
+   solo cambian font-family y font-size.              */
+h1, h2, h3, h4 {
+  font-family: 'Playfair Display', serif; /* sobreescribe font-family */
+  line-height: 1.2;                        /* sobreescribe line-height */
+  /* color: se HEREDA del ancestro más cercano */
+}
+
+h1 { font-size: 3.2rem; }
+h2 { font-size: 2.2rem; }
+h3 { font-size: 1.3rem; }
+h4 { font-size: 1rem;   font-weight: 700; }
+
+p  { margin-bottom: 0.75rem; }     /* hereda color y font del body */
+a  { color: inherit; text-decoration: none; } /* inherit fuerza herencia explícita */
+ul { list-style: none; }
+
+/* ============================================================
+   NAVBAR
+   ============================================================ */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.1rem 5%;
+  background-color: var(--cafe-oscuro);
+  color: var(--crema);              /* todos los hijos heredan crema */
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  font-family: 'Playfair Display', serif; /* sobreescribe font */
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  /* color: hereda var(--crema) del .navbar */
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  /* color, font-family, font-size: todos heredados de .navbar */
+}
+
+.nav-links a {
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+  /* color: inherit ya definido arriba, hereda crema */
+}
+
+.nav-links a:hover { opacity: 1; }
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero {
+  background-color: var(--cafe-oscuro);
+  background-image:
+    radial-gradient(ellipse at 70% 50%, var(--cafe-medio) 0%, transparent 60%),
+    radial-gradient(ellipse at 20% 80%, var(--cafe-claro) 0%, transparent 50%);
+  color: var(--crema);              /* HEREDA a todos los hijos */
+  padding: 7rem 5% 6rem;
+  min-height: 88vh;
+  display: flex;
+  align-items: center;
+}
+
+.hero-content { max-width: 640px; }
+
+.hero-eyebrow {
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--dorado);             /* sobreescribe color heredado */
+  margin-bottom: 1rem;
+}
+
+/* h1 hereda color: crema del .hero */
+.hero h1 { margin-bottom: 1.5rem; }
+.hero h1 em {
+  font-style: italic;
+  color: var(--dorado);             /* solo el em cambia color */
+  /* font-family, font-size: heredados de h1 */
+}
+
+.hero-sub {
+  font-size: 1.1rem;
+  opacity: 0.85;
+  margin-bottom: 2.5rem;
+  /* color: hereda crema del .hero */
+}
+
+/* ── Botón ── */
+.btn {
+  display: inline-block;
+  padding: 0.85rem 2.2rem;
+  background-color: var(--dorado);
+  color: var(--cafe-oscuro);        /* sobreescribe el color heredado */
+  font-family: inherit;             /* inherit explícito: toma Lato del body */
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border-radius: 2px;
+  transition: background-color 0.2s, transform 0.15s;
+}
+
+.btn:hover {
+  background-color: var(--cafe-claro);
+  color: var(--crema);
+  transform: translateY(-2px);
+}
+
+/* ============================================================
+   SECCIONES — Herencia por bloque
+   Cada .seccion establece un contexto de color;
+   todos sus hijos (h2, p, li) heredan ese color.
+   ============================================================ */
+.seccion {
+  padding: 5rem 5%;
+  /* color: hereda de body → var(--texto-base) */
+}
+
+.seccion-sub {
+  color: var(--texto-muted);        /* sobreescribe solo el subtítulo */
+  font-size: 1.05rem;
+  margin-top: 0.5rem;
+  margin-bottom: 3rem;
+}
+
+/* .seccion h2 hereda color del body (texto-base) */
+.seccion h2 {
+  border-bottom: 2px solid currentColor; /* currentColor usa el color heredado */
+  display: inline-block;
+  padding-bottom: 0.3rem;
+  margin-bottom: 0.5rem;
+}
+
+/* ── Sección oscura — sobreescribe herencia de color ── */
+.oscura {
+  background-color: var(--cafe-oscuro);
+  color: var(--crema);              /* todos los hijos heredan crema */
+}
+
+/* dentro de .oscura, .seccion-sub hereda crema y baja opacidad */
+.oscura .seccion-sub {
+  color: inherit;                   /* inherit explícito: fuerza crema */
+  opacity: 0.65;
+}
+
+/* ============================================================
+   MENÚ — CATEGORÍAS
+   ============================================================ */
+.categorias {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.categoria {
+  background-color: var(--crema-oscura);
+  border-radius: 8px;
+  padding: 1.75rem 1.5rem;
+  border-top: 3px solid var(--cafe-claro);
+  /* color, font: heredados del body */
+}
+
+.categoria h3 {
+  margin-bottom: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  /* color: hereda texto-base */
+}
+
+/* Categoría destacada sobreescribe el borde y fondo */
+.destacada {
+  background-color: var(--cafe-oscuro);
+  color: var(--crema);              /* hijos como h3, li heredan crema */
+  border-top-color: var(--dorado);
+}
+
+.badge {
+  font-family: 'Lato', sans-serif;  /* sobreescribe Playfair del h3 */
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background-color: var(--dorado);
+  color: var(--cafe-oscuro);
+  padding: 0.15rem 0.5rem;
+  border-radius: 2px;
+}
+
+/* ── Lista de cafés ──
+   Hereda color de .categoria (texto-base o crema si es .destacada) */
+.lista-cafe li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0.55rem 0;
+  border-bottom: 1px dashed currentColor; /* currentColor = color heredado */
+  opacity: 0.85;
+  font-size: 0.95rem;
+  /* color: heredado de .categoria */
+}
+
+.lista-cafe li:last-child { border-bottom: none; }
+
+.nombre-bebida { font-weight: 400; }
+.precio {
+  font-weight: 700;
+  font-size: 0.9em;   /* em: relativo al font-size del li (0.95rem) */
+  color: var(--dorado);
+}
+
+/* ============================================================
+   ORIGEN
+   ============================================================ */
+.origen-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.origen-card {
+  background-color: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px;
+  padding: 2rem 1.5rem;
+  /* color: hereda crema de .oscura */
+}
+
+.origen-icono {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  line-height: 1;
+}
+
+.origen-card h4 {
+  margin-bottom: 0.6rem;
+  /* color: hereda crema */
+}
+
+.origen-card p {
+  font-size: 0.9rem;
+  opacity: 0.75;
+  margin-bottom: 0;
+  /* color: hereda crema (opacidad baja) */
+}
+
+/* ============================================================
+   CONTACTO
+   ============================================================ */
+.info-contacto {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.info-bloque {
+  flex: 1;
+  min-width: 180px;
+  /* color, font: heredados del body */
+}
+
+.info-bloque h4 {
+  color: var(--dorado);             /* sobreescribe color heredado */
+  margin-bottom: 0.4rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+}
+
+.info-bloque p {
+  font-size: 0.95rem;
+  margin-bottom: 0;
+  /* color: hereda texto-base */
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer {
+  background-color: var(--cafe-oscuro);
+  color: var(--crema);              /* heredado por el <p> interno */
+  text-align: center;
+  padding: 2rem 5%;
+  font-size: 0.8rem;
+  opacity: 0.9;
+  /* p dentro hereda: color crema, font-family Lato, font-size 0.8rem */
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 600px) {
+  h1 { font-size: 2.2rem; }
+  h2 { font-size: 1.6rem; }
+
+  .navbar {
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1rem 5%;
+  }
+
+  .nav-links { gap: 1.2rem; }
+
+  .hero { padding: 5rem 5% 4rem; min-height: auto; }
+}
+.grid{
+    background-color: black;
+}
