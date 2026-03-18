@@ -1,0 +1,1408 @@
+/* ============================================================
+   styles.css · Tostado Negro
+   La herencia CSS se aplica de forma natural:
+   - body define color, font-family, font-size, line-height
+     → todos los elementos los heredan sin redeclarar
+   - .seccion hereda y propaga a h2, p, li
+   - .oscura sobreescribe color para sus hijos
+   - currentColor en bordes e íconos
+   - em en font-size hace que los hijos escalen relativos al padre
+   ============================================================ */
+
+/* ── Variables ── */
+:root {
+  --cafe-oscuro:  #1a0f0a;
+  --cafe-medio:   #3b1f0e;
+  --cafe-claro:   #7c4a1e;
+  --crema:        #f5efe6;
+  --crema-oscura: #e8ddd0;
+  --dorado:       #c9913a;
+  --texto-base:   #2c1a0e;
+  --texto-muted:  #7a5c45;
+}
+
+/* ── Reset mínimo ── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ============================================================
+   BODY — Herencia principal
+   font-family, font-size, color y line-height se heredan
+   por TODOS los elementos del documento.
+   ============================================================ */
+body {
+  font-family: 'Lato', sans-serif; /* heredado por todo */
+  font-size: 16px;                  /* base para em en hijos */
+  color: var(--texto-base);         /* heredado por todo el texto */
+  line-height: 1.7;                 /* heredado por párrafos y listas */
+  background-color: var(--crema);
+  letter-spacing: 0.01em;           /* heredado sutilmente */
+}
+
+/* ── Tipografía heredada ──
+   h1–h4 heredan color de body (o de su sección padre),
+   solo cambian font-family y font-size.              */
+h1, h2, h3, h4 {
+  font-family: 'Playfair Display', serif; /* sobreescribe font-family */
+  line-height: 1.2;                        /* sobreescribe line-height */
+  /* color: se HEREDA del ancestro más cercano */
+}
+
+h1 { font-size: 3.2rem; }
+h2 { font-size: 2.2rem; }
+h3 { font-size: 1.3rem; }
+h4 { font-size: 1rem;   font-weight: 700; }
+
+p  { margin-bottom: 0.75rem; }     /* hereda color y font del body */
+a  { color: inherit; text-decoration: none; } /* inherit fuerza herencia explícita */
+ul { list-style: none; }
+
+/* ============================================================
+   NAVBAR
+   ============================================================ */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.1rem 5%;
+  background-color: var(--cafe-oscuro);
+  color: var(--crema);              /* todos los hijos heredan crema */
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  font-family: 'Playfair Display', serif; /* sobreescribe font */
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  /* color: hereda var(--crema) del .navbar */
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  /* color, font-family, font-size: todos heredados de .navbar */
+}
+
+.nav-links a {
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+  /* color: inherit ya definido arriba, hereda crema */
+}
+
+.nav-links a:hover { opacity: 1; }
+
+/* ============================================================
+   HERO
+   ============================================================ */
+.hero {
+  background-color: var(--cafe-oscuro);
+  background-image:
+    radial-gradient(ellipse at 70% 50%, var(--cafe-medio) 0%, transparent 60%),
+    radial-gradient(ellipse at 20% 80%, var(--cafe-claro) 0%, transparent 50%);
+  color: var(--crema);              /* HEREDA a todos los hijos */
+  padding: 7rem 5% 6rem;
+  min-height: 88vh;
+  display: flex;
+  align-items: center;
+}
+
+.hero-content { max-width: 640px; }
+
+.hero-eyebrow {
+  font-size: 0.78rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--dorado);             /* sobreescribe color heredado */
+  margin-bottom: 1rem;
+}
+
+/* h1 hereda color: crema del .hero */
+.hero h1 { margin-bottom: 1.5rem; }
+.hero h1 em {
+  font-style: italic;
+  color: var(--dorado);             /* solo el em cambia color */
+  /* font-family, font-size: heredados de h1 */
+}
+
+.hero-sub {
+  font-size: 1.1rem;
+  opacity: 0.85;
+  margin-bottom: 2.5rem;
+  /* color: hereda crema del .hero */
+}
+
+/* ── Botón ── */
+.btn {
+  display: inline-block;
+  padding: 0.85rem 2.2rem;
+  background-color: var(--dorado);
+  color: var(--cafe-oscuro);        /* sobreescribe el color heredado */
+  font-family: inherit;             /* inherit explícito: toma Lato del body */
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border-radius: 2px;
+  transition: background-color 0.2s, transform 0.15s;
+}
+
+.btn:hover {
+  background-color: var(--cafe-claro);
+  color: var(--crema);
+  transform: translateY(-2px);
+}
+
+/* ============================================================
+   SECCIONES — Herencia por bloque
+   Cada .seccion establece un contexto de color;
+   todos sus hijos (h2, p, li) heredan ese color.
+   ============================================================ */
+.seccion {
+  padding: 5rem 5%;
+  /* color: hereda de body → var(--texto-base) */
+}
+
+.seccion-sub {
+  color: var(--texto-muted);        /* sobreescribe solo el subtítulo */
+  font-size: 1.05rem;
+  margin-top: 0.5rem;
+  margin-bottom: 3rem;
+}
+
+/* .seccion h2 hereda color del body (texto-base) */
+.seccion h2 {
+  border-bottom: 2px solid currentColor; /* currentColor usa el color heredado */
+  display: inline-block;
+  padding-bottom: 0.3rem;
+  margin-bottom: 0.5rem;
+}
+
+/* ── Sección oscura — sobreescribe herencia de color ── */
+.oscura {
+  background-color: var(--cafe-oscuro);
+  color: var(--crema);              /* todos los hijos heredan crema */
+}
+
+/* dentro de .oscura, .seccion-sub hereda crema y baja opacidad */
+.oscura .seccion-sub {
+  color: inherit;                   /* inherit explícito: fuerza crema */
+  opacity: 0.65;
+}
+
+/* ============================================================
+   MENÚ — CATEGORÍAS
+   ============================================================ */
+.categorias {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.categoria {
+  background-color: var(--crema-oscura);
+  border-radius: 8px;
+  padding: 1.75rem 1.5rem;
+  border-top: 3px solid var(--cafe-claro);
+  /* color, font: heredados del body */
+}
+
+.categoria h3 {
+  margin-bottom: 1.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  /* color: hereda texto-base */
+}
+
+/* Categoría destacada sobreescribe el borde y fondo */
+.destacada {
+  background-color: var(--cafe-oscuro);
+  color: var(--crema);              /* hijos como h3, li heredan crema */
+  border-top-color: var(--dorado);
+}
+
+.badge {
+  font-family: 'Lato', sans-serif;  /* sobreescribe Playfair del h3 */
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background-color: var(--dorado);
+  color: var(--cafe-oscuro);
+  padding: 0.15rem 0.5rem;
+  border-radius: 2px;
+}
+
+/* ── Lista de cafés ──
+   Hereda color de .categoria (texto-base o crema si es .destacada) */
+.lista-cafe li {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  padding: 0.55rem 0;
+  border-bottom: 1px dashed currentColor; /* currentColor = color heredado */
+  opacity: 0.85;
+  font-size: 0.95rem;
+  /* color: heredado de .categoria */
+}
+
+.lista-cafe li:last-child { border-bottom: none; }
+
+.nombre-bebida { font-weight: 400; }
+.precio {
+  font-weight: 700;
+  font-size: 0.9em;   /* em: relativo al font-size del li (0.95rem) */
+  color: var(--dorado);
+}
+
+/* ============================================================
+   ORIGEN
+   ============================================================ */
+.origen-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.origen-card {
+  background-color: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px;
+  padding: 2rem 1.5rem;
+  /* color: hereda crema de .oscura */
+}
+
+.origen-icono {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  line-height: 1;
+}
+
+.origen-card h4 {
+  margin-bottom: 0.6rem;
+  /* color: hereda crema */
+}
+
+.origen-card p {
+  font-size: 0.9rem;
+  opacity: 0.75;
+  margin-bottom: 0;
+  /* color: hereda crema (opacidad baja) */
+}
+
+/* ============================================================
+   CONTACTO
+   ============================================================ */
+.info-contacto {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.info-bloque {
+  flex: 1;
+  min-width: 180px;
+  /* color, font: heredados del body */
+}
+
+.info-bloque h4 {
+  color: var(--dorado);             /* sobreescribe color heredado */
+  margin-bottom: 0.4rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+}
+
+.info-bloque p {
+  font-size: 0.95rem;
+  margin-bottom: 0;
+  /* color: hereda texto-base */
+}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer {
+  background-color: var(--cafe-oscuro);
+  color: var(--crema);              /* heredado por el <p> interno */
+  text-align: center;
+  padding: 2rem 5%;
+  font-size: 0.8rem;
+  opacity: 0.9;
+  /* p dentro hereda: color crema, font-family Lato, font-size 0.8rem */
+}
+
+/* ============================================================
+   FLEXBOX — MÉTODOS DE PREPARACIÓN
+   Propiedades usadas:
+   · display: flex          → activa el contexto flex
+   · flex-wrap: wrap        → los hijos saltan a la siguiente línea
+   · gap                    → espacio entre items sin margin
+   · flex: 1 1 260px        → flex-grow, flex-shrink, flex-basis juntos
+   · flex-direction: column → el interior de cada card va en columna
+   · justify-content        → distribuye los hijos en el eje principal
+   · align-items            → alinea en el eje cruzado
+   · margin-top: auto       → empuja el tag al fondo (truco flex clásico)
+   ============================================================ */
+
+.metodos-flex {
+  display: flex;           /* activa Flexbox */
+  flex-wrap: wrap;         /* permite que los items pasen a la línea siguiente */
+  gap: 1.25rem;            /* espacio uniforme entre cards */
+  /* sin justify-content: se usa el valor por defecto flex-start */
+}
+
+.metodo-card {
+  display: flex;           /* flex anidado: el contenido interno también es flex */
+  flex-direction: column;  /* eje principal: vertical (icono → título → texto → tag) */
+  align-items: flex-start; /* alinea hijos al inicio del eje cruzado (izquierda) */
+  flex: 1 1 260px;         /* flex-grow:1 flex-shrink:1 flex-basis:260px */
+                           /* crece para llenar espacio, se encoge si necesario */
+  background-color: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  padding: 1.75rem 1.5rem;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.metodo-card:hover {
+  background-color: rgba(201,145,58,0.12);
+  border-color: var(--dorado);
+}
+
+.metodo-icono {
+  font-size: 2rem;
+  margin-bottom: 0.85rem;
+  line-height: 1;
+}
+
+.metodo-card h3 { margin-bottom: 0.5rem; }
+
+.metodo-card p {
+  font-size: 0.88rem;
+  opacity: 0.75;
+  margin-bottom: 0;
+  flex: 1;                 /* ocupa todo el espacio disponible */
+                           /* empuja el .metodo-tag hacia abajo */
+}
+
+.metodo-tag {
+  display: inline-block;
+  margin-top: 1.1rem;      /* separación del párrafo */
+  /* alternativa con flex: podría usar margin-top: auto si p no tuviera flex:1 */
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--dorado);
+  border: 1px solid var(--dorado);
+  padding: 0.2rem 0.6rem;
+  border-radius: 3px;
+}
+
+/* ============================================================
+   FLEXBOX — EQUIPO / BARISTAS
+   Propiedades usadas:
+   · flex-direction: row (default)  → cards en fila
+   · flex-wrap: wrap                → responsive automático
+   · align-items: stretch           → todas las cards tienen igual alto
+   · flex dentro de .barista-card   → icono + texto en fila
+   · align-items: center            → avatar centrado verticalmente
+   · flex: 0 0 auto                 → el avatar no crece ni se encoge
+   · flex: 1                        → el texto ocupa el resto
+   · order                          → cambia el orden visual del badge
+   ============================================================ */
+
+.equipo-flex {
+  display: flex;
+  flex-direction: row;      /* eje principal: horizontal (default) */
+  flex-wrap: wrap;          /* salta línea si no caben */
+  gap: 1.5rem;
+  align-items: stretch;     /* todas las cards tienen la misma altura */
+}
+
+.barista-card {
+  display: flex;            /* flex anidado */
+  flex-direction: row;      /* avatar a la izquierda, texto a la derecha */
+  align-items: center;      /* centrado vertical entre avatar y texto */
+  gap: 1.25rem;
+  flex: 1 1 280px;          /* base 280px, crece y se encoge */
+  position: relative;
+  background-color: var(--crema-oscura);
+  border-radius: 10px;
+  padding: 1.5rem;
+  border-left: 3px solid var(--cafe-claro);
+}
+
+.destacado-equipo {
+  border-left-color: var(--dorado);
+  background-color: var(--cafe-oscuro);
+  color: var(--crema);
+  flex: 1 1 340px;          /* flex-basis mayor: ocupa más espacio */
+}
+
+.barista-avatar {
+  display: flex;
+  justify-content: center;  /* texto centrado horizontalmente en el avatar */
+  align-items: center;      /* texto centrado verticalmente en el avatar */
+  flex: 0 0 56px;           /* flex-grow:0 flex-shrink:0 → tamaño fijo */
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: var(--cafe-claro);
+  color: var(--crema);
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.barista-avatar.dorado { background-color: var(--dorado); color: var(--cafe-oscuro); }
+
+.barista-info {
+  display: flex;
+  flex-direction: column;   /* nombre → rol → descripción en columna */
+  flex: 1;                  /* ocupa todo el ancho restante */
+  gap: 0.25rem;
+}
+
+.barista-info h3 { font-size: 1.05rem; margin: 0; }
+
+.barista-rol {
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--dorado);
+}
+
+.barista-info p {
+  font-size: 0.85rem;
+  opacity: 0.8;
+  margin: 0.3rem 0 0;
+}
+
+.barista-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background-color: var(--dorado);
+  color: var(--cafe-oscuro);
+  padding: 0.15rem 0.5rem;
+  border-radius: 3px;
+  order: -1;               /* aunque está al final del HTML, aparece primero visualmente */
+}
+
+/* ============================================================
+   FLEXBOX — BENEFICIOS
+   Propiedades usadas:
+   · flex-direction: column          → lista vertical
+   · flex-direction: row             → número + texto en fila (anidado)
+   · justify-content: flex-start     → contenido arriba
+   · align-items: flex-start         → alineación izquierda
+   · flex: 0 0 auto / flex: 1        → proporciones controladas
+   · align-self                      → un item se alinea diferente al resto
+   ============================================================ */
+
+.beneficios-seccion { background-color: var(--crema-oscura); }
+
+.beneficios-flex {
+  display: flex;
+  flex-direction: column;   /* lista de beneficios apilada verticalmente */
+  gap: 0;
+}
+
+.beneficio-item {
+  display: flex;            /* flex anidado: número + texto en fila */
+  flex-direction: row;      /* número a la izquierda, texto a la derecha */
+  align-items: flex-start;  /* alineados al tope */
+  gap: 1.5rem;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--crema-oscura);
+  border-bottom-color: color-mix(in srgb, var(--cafe-claro) 25%, transparent);
+}
+
+.beneficio-item:last-child { border-bottom: none; }
+
+.beneficio-numero {
+  flex: 0 0 48px;           /* ancho fijo, no crece ni se encoge */
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--dorado);
+  line-height: 1;
+  align-self: center;       /* centrado vertical solo este elemento */
+                            /* los demás usan align-items: flex-start */
+}
+
+.beneficio-texto {
+  flex: 1;                  /* ocupa todo el espacio disponible */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 0.25rem;
+}
+
+.beneficio-texto h4 { margin: 0; }
+.beneficio-texto p  { margin: 0; font-size: 0.95rem; opacity: 0.8; }
+
+/* ============================================================
+   ALINEACIÓN FLEXBOX — TALLERES
+   Propiedad principal: justify-content
+   Distribuye los items en el eje principal (horizontal).
+   Valores usados:
+   · space-between → espacio entre cards, sin margen en extremos
+   · center        → centrado en el eje principal
+   · align-items: stretch → todas las cards tienen la misma altura
+   ============================================================ */
+
+.talleres-fila {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;   /* espacio entre las 3 cards, bordes al límite */
+  align-items: stretch;             /* todas las cards tienen el mismo alto */
+  gap: 1.5rem;
+}
+
+.taller-card {
+  display: flex;
+  flex-direction: column;           /* contenido apilado verticalmente */
+  justify-content: flex-start;      /* todo arriba en el eje principal (vertical) */
+  align-items: flex-start;          /* todo alineado a la izquierda (eje cruzado) */
+  flex: 1 1 240px;
+  background-color: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  padding: 1.75rem 1.5rem;
+  gap: 0.75rem;
+  transition: border-color 0.2s, background-color 0.2s;
+}
+
+.taller-card:hover {
+  background-color: rgba(201,145,58,0.1);
+  border-color: var(--dorado);
+}
+
+.taller-destacado {
+  border-color: var(--dorado);
+  background-color: rgba(201,145,58,0.08);
+}
+
+.taller-nivel {
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--texto-muted);
+  border: 1px solid currentColor;
+  padding: 0.2rem 0.55rem;
+  border-radius: 3px;
+}
+
+.taller-nivel.dorado { color: var(--dorado); }
+
+.taller-card h3 { margin: 0; font-size: 1.15rem; }
+
+.taller-card p {
+  font-size: 0.88rem;
+  opacity: 0.75;
+  margin: 0;
+  flex: 1;                          /* empuja .taller-meta y .btn hacia el fondo */
+}
+
+.taller-meta {
+  display: flex;
+  justify-content: space-between;   /* fecha a la izquierda, duración a la derecha */
+  align-items: center;              /* centrado vertical entre los dos spans */
+  width: 100%;
+  font-size: 0.78rem;
+  opacity: 0.65;
+  gap: 0.5rem;
+}
+
+.btn-sm {
+  padding: 0.55rem 1.4rem;
+  font-size: 0.75rem;
+}
+
+/* ============================================================
+   ALINEACIÓN FLEXBOX — ESTADÍSTICAS
+   Propiedades principales: align-items + align-self
+   · align-items: flex-end   → valor base del contenedor
+   · align-self              → cada stat se alinea diferente
+     · flex-start  → arriba
+     · center      → centro
+     · flex-end    → abajo (hereda el del contenedor)
+   El contenedor tiene altura fija para que el efecto sea visible.
+   ============================================================ */
+
+.stats-seccion {
+  background-color: var(--cafe-oscuro);
+  color: var(--crema);
+}
+
+.stats-seccion h2 { color: inherit; }
+.stats-seccion .seccion-sub { color: inherit; opacity: 0.6; }
+
+.stats-flex {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;          /* centra el grupo de stats en la fila */
+  align-items: flex-end;            /* valor base: todos al fondo */
+  gap: 0;
+  min-height: 220px;                /* altura fija para que align-self sea visible */
+  border-top: 1px solid rgba(255,255,255,0.1);
+  padding-top: 2rem;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;              /* número y etiqueta centrados entre sí */
+  justify-content: flex-end;
+  text-align: center;
+  padding: 1.5rem 2rem;
+  flex: 1 1 140px;
+  border-right: 1px solid rgba(255,255,255,0.08);
+}
+
+.stat-item:last-child { border-right: none; }
+
+/* align-self sobreescribe el align-items: flex-end del padre */
+.stat-top    { align-self: flex-start; }  /* se alinea arriba */
+.stat-center { align-self: center;     }  /* se alinea al centro */
+.stat-bottom { align-self: flex-end;   }  /* se alinea abajo (mismo que padre) */
+
+.stat-numero {
+  font-family: 'Playfair Display', serif;
+  font-size: 3rem;
+  font-weight: 700;
+  color: var(--dorado);
+  line-height: 1;
+  display: block;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  opacity: 0.6;
+  max-width: 120px;
+  margin-top: 0.5rem;
+  line-height: 1.4;
+}
+
+/* ============================================================
+   ALINEACIÓN FLEXBOX — PLANES / SUSCRIPCIÓN
+   Propiedades principales: align-content + place-content
+   · align-content: center  → centra las filas en el eje cruzado
+                               cuando hay flex-wrap activo
+   · place-content          → shorthand de align-content + justify-content
+   · align-items: flex-end  → los items se alinean por su base inferior
+                               (útil para igualar botones de distintas alturas)
+   ============================================================ */
+
+.planes-flex {
+  display: flex;
+  flex-wrap: wrap;
+  /* place-content = align-content + justify-content en una sola propiedad */
+  place-content: center;            /* centra el grupo vertical y horizontalmente */
+  align-items: flex-end;            /* el plan popular (más alto) empuja los otros abajo */
+  gap: 1.25rem;
+}
+
+.plan-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;   /* header arriba, lista en medio, botón abajo */
+  align-items: stretch;             /* el botón ocupa todo el ancho */
+  flex: 1 1 220px;
+  max-width: 300px;
+  background-color: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  padding: 1.75rem 1.5rem;
+  gap: 1.25rem;
+  position: relative;
+}
+
+.plan-popular {
+  border-color: var(--dorado);
+  background-color: rgba(201,145,58,0.1);
+  padding-top: 2.5rem;              /* espacio para el badge */
+  flex-basis: 260px;
+}
+
+.plan-badge {
+  position: absolute;
+  top: -1px; left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--dorado);
+  color: var(--cafe-oscuro);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.9rem;
+  border-radius: 0 0 6px 6px;
+}
+
+.plan-header {
+  display: flex;
+  justify-content: space-between;   /* nombre a la izquierda, precio a la derecha */
+  align-items: flex-start;          /* alineados en la parte superior */
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.plan-header h3 { margin: 0; font-size: 1.1rem; }
+
+.plan-precio {
+  display: flex;
+  align-items: baseline;            /* número y unidad alineados por su línea de base */
+  gap: 0.2rem;
+}
+
+.plan-monto {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--dorado);
+}
+
+.plan-periodo {
+  font-size: 0.78rem;
+  opacity: 0.6;
+}
+
+.plan-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex: 1;
+}
+
+.plan-lista li {
+  display: flex;
+  align-items: center;              /* ícono y texto alineados verticalmente */
+  gap: 0.6rem;
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+
+.check {
+  font-size: 0.8rem;
+  color: var(--dorado);
+  flex-shrink: 0;
+}
+.check.muted { color: var(--texto-muted); opacity: 0.5; }
+
+.btn-outline {
+  background-color: transparent;
+  border: 1px solid var(--dorado);
+  color: var(--dorado);
+}
+.btn-outline:hover {
+  background-color: var(--dorado);
+  color: var(--cafe-oscuro);
+}
+
+/* ============================================================
+   ALINEACIÓN FLEXBOX — PROCESO
+   Propiedades principales: align-self por cada item individual
+   El contenedor usa align-items: center como base,
+   pero cada .proceso-item sobreescribe con su propio align-self:
+   · flex-start → pegado arriba
+   · center     → centrado verticalmente
+   · flex-end   → pegado abajo
+   Crea un ritmo visual en zigzag vertical.
+   ============================================================ */
+
+.proceso-flex {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;          /* centra el grupo si hay espacio extra */
+  align-items: center;              /* valor base para los items */
+  gap: 1.25rem;
+  min-height: 320px;
+}
+
+.proceso-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;              /* foto y texto centrados entre sí */
+  text-align: center;
+  flex: 1 1 180px;
+  max-width: 220px;
+  gap: 1rem;
+}
+
+/* align-self individual sobreescribe align-items: center del padre */
+.proceso-alto  { align-self: flex-start; }  /* se pega arriba */
+.proceso-medio { align-self: center;     }  /* centrado (igual al padre) */
+.proceso-bajo  { align-self: flex-end;   }  /* se pega abajo */
+
+.proceso-foto {
+  display: flex;
+  justify-content: center;          /* emoji centrado horizontalmente */
+  align-items: center;              /* emoji centrado verticalmente */
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  font-size: 2.2rem;
+  border: 2px solid var(--cafe-claro);
+}
+
+.proceso-foto-a { background-color: rgba(124,74,30,0.12); border-color: #7c4a1e; }
+.proceso-foto-b { background-color: rgba(201,145,58,0.12); border-color: var(--dorado); }
+.proceso-foto-c { background-color: rgba(59,31,14,0.15);  border-color: var(--cafe-medio); }
+.proceso-foto-d { background-color: rgba(201,145,58,0.18); border-color: var(--dorado); }
+
+.proceso-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.proceso-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.75rem;
+  color: var(--dorado);
+  letter-spacing: 0.1em;
+}
+
+.proceso-info h4 { margin: 0; }
+.proceso-info p  { font-size: 0.82rem; opacity: 0.7; margin: 0; }
+
+/* ============================================================
+   POSITION — PROMOCIONES DEL DÍA
+   · .promo-card          → position: relative  (contexto para hijos)
+   · .promo-etiqueta      → position: absolute  (esquina sup-izq)
+   · .promo-corner-tag    → position: absolute  (esquina inf-der)
+   · .promo-overlay       → position: absolute  cubre toda la card
+   ============================================================ */
+
+.promos-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+}
+
+.promo-card {
+  position: relative;           /* ← crea el contexto de posicionamiento */
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 220px;
+  background-color: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  padding: 1.5rem 1.25rem 1.25rem;
+  overflow: hidden;             /* recorta el overlay y las etiquetas */
+  transition: border-color 0.2s;
+}
+
+.promo-card:hover { border-color: var(--dorado); }
+
+/* position: absolute → sale del flujo, se ancla al .promo-card (relative) */
+.promo-etiqueta {
+  position: absolute;
+  top: 0;                       /* top/left referenciados al padre relative */
+  left: 0;
+  background-color: var(--dorado);
+  color: var(--cafe-oscuro);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 0.25rem 0.7rem;
+  border-radius: 0 0 8px 0;    /* solo esquina inferior derecha redondeada */
+}
+
+.promo-etiqueta.promo-nuevo { background-color: #5cb85c; color: #fff; }
+.promo-etiqueta.promo-out   { background-color: var(--cafe-claro); }
+
+/* position: absolute en esquina inferior derecha */
+.promo-corner-tag {
+  position: absolute;
+  bottom: 0;                    /* anclado al fondo del padre */
+  right: 0;                     /* anclado a la derecha del padre */
+  background-color: rgba(201,145,58,0.15);
+  color: var(--dorado);
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 0.25rem 0.6rem;
+  border-radius: 8px 0 0 0;    /* solo esquina superior izquierda redondeada */
+}
+
+/* position: absolute que cubre toda la card (top/left/right/bottom = 0) */
+.promo-overlay {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;  /* cubre el 100% del padre */
+  background-color: rgba(26,15,10,0.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--crema);
+  opacity: 0;                   /* oculto por defecto */
+  transition: opacity 0.25s;
+  border-radius: 12px;
+}
+
+.promo-agotada:hover .promo-overlay { opacity: 1; }
+.promo-agotada { opacity: 0.55; }
+
+.promo-icono {
+  font-size: 2rem;
+  margin: 0.75rem 0 0.6rem;
+}
+
+.promo-body h3 { font-size: 1rem; margin-bottom: 0.35rem; }
+.promo-body p  { font-size: 0.82rem; opacity: 0.7; margin-bottom: 0.75rem; }
+
+.promo-precios {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+}
+
+.promo-antes {
+  font-size: 0.85rem;
+  text-decoration: line-through;
+  opacity: 0.45;
+}
+
+.promo-ahora {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--dorado);
+}
+
+/* ============================================================
+   POSITION — MAPA DEL LOCAL
+   · .mapa-relativo    → position: relative  (contexto del mapa)
+   · .mapa-pin         → position: absolute  (marcador en el mapa)
+   · .mapa-pin-pulso   → position: absolute  (anillo animado del pin)
+   · .mapa-leyenda     → position: absolute  (esquina superior derecha)
+   · .mapa-btn-dir     → position: absolute  (esquina inferior izquierda)
+   · .mapa-parque      → position: absolute  (dentro del fondo del mapa)
+   · .mapa-metro       → position: absolute  (dentro del fondo del mapa)
+   ============================================================ */
+
+.mapa-wrapper { margin-top: 1rem; }
+
+.mapa-relativo {
+  position: relative;           /* ← todos los hijos absolutos se anclan aquí */
+  width: 100%;
+  height: 360px;
+  background-color: #e8ddd0;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 2px solid var(--crema-oscura);
+}
+
+/* Fondo del mapa: fluye normal (static por defecto) */
+.mapa-fondo {
+  width: 100%;
+  height: 100%;
+  background-color: #f0e8dc;
+  position: relative;           /* para que las calles y parques se anclen aquí */
+}
+
+.mapa-calle {
+  position: absolute;           /* cada calle se posiciona absolutamente */
+  background-color: #fff;
+  opacity: 0.7;
+}
+.mapa-calle-h { left: 0; right: 0; height: 18px; }   /* calle horizontal */
+.mapa-calle-v { top: 0; bottom: 0; width: 18px; }    /* calle vertical */
+
+.mapa-parque {
+  position: absolute;
+  bottom: 8%;
+  left: 30%;
+  background-color: rgba(120,180,80,0.25);
+  border: 1px dashed rgba(80,140,40,0.4);
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+  font-size: 0.75rem;
+  color: #4a7a2a;
+}
+
+.mapa-metro {
+  position: absolute;
+  top: 12%;
+  right: 8%;
+  background-color: #c0392b;
+  color: #fff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 0.3rem 0.7rem;
+  border-radius: 20px;
+}
+
+/* PIN DEL CAFÉ: position absolute dentro del mapa-relativo */
+.mapa-pin {
+  position: absolute;
+  top: 42%;                     /* coordenadas dentro del mapa */
+  left: 50%;
+  transform: translate(-50%, -50%);  /* centra el pin en ese punto exacto */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 2;
+}
+
+.mapa-pin-icono {
+  width: 46px;
+  height: 46px;
+  background-color: var(--cafe-oscuro);
+  border: 3px solid var(--dorado);
+  border-radius: 50% 50% 50% 0;   /* forma de gota */
+  transform: rotate(-45deg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  position: relative;
+  z-index: 2;
+}
+
+/* Pulso animado: position absolute dentro del .mapa-pin */
+.mapa-pin-pulso {
+  position: absolute;           /* no afecta el flujo, superpuesto al icono */
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: rgba(201,145,58,0.25);
+  animation: pulso 2s ease-out infinite;
+  z-index: 1;
+}
+
+@keyframes pulso {
+  0%   { transform: translate(-50%,-50%) scale(0.6); opacity: 0.8; }
+  100% { transform: translate(-50%,-50%) scale(1.8); opacity: 0;   }
+}
+
+.mapa-pin-label {
+  margin-top: 10px;
+  background-color: var(--cafe-oscuro);
+  color: var(--crema);
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+
+/* LEYENDA: position absolute, esquina superior derecha */
+.mapa-leyenda {
+  position: absolute;
+  top: 1rem;                    /* 1rem desde el borde superior del padre */
+  left: 1rem;                   /* 1rem desde la derecha del padre */
+  background-color: rgba(26,15,10,0.88);
+  color: var(--crema);
+  padding: 0.9rem 1.1rem;
+  border-radius: 8px;
+  font-size: 0.82rem;
+  backdrop-filter: blur(4px);
+  z-index: 3;
+  line-height: 1.5;
+}
+
+.mapa-leyenda p { margin: 0; }
+.mapa-leyenda-horario {
+  color: var(--dorado);
+  font-size: 0.72rem;
+  margin-top: 0.25rem !important;
+}
+
+/* BOTÓN DIRECCIÓN: position absolute, esquina inferior izquierda */
+.mapa-btn-dir {
+  position: absolute;
+  bottom: 1rem;                 /* 1rem desde el borde inferior del padre */
+  right: 1rem;                  /* 1rem desde la izquierda del padre */
+  background-color: var(--dorado);
+  color: var(--cafe-oscuro);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  z-index: 3;
+  transition: background-color 0.2s;
+}
+
+.mapa-btn-dir:hover { background-color: var(--cafe-claro); color: var(--crema); }
+
+/* ============================================================
+   POSITION — RESEÑAS
+   · .resena-card    → position: relative  (contexto para comillas)
+   · .resena-comilla → position: absolute  (comilla decorativa grande,
+                       fuera del flujo, no empuja el texto)
+   ============================================================ */
+
+.resenas-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  align-items: flex-start;
+}
+
+.resena-card {
+  position: relative;           /* contexto para .resena-comilla */
+  flex: 1 1 240px;
+  background-color: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px;
+  padding: 2rem 1.5rem 1.5rem;
+  overflow: hidden;
+}
+
+.resena-grande { flex-basis: 340px; }
+
+/* Comilla decorativa: position absolute, sin afectar el flujo del texto */
+.resena-comilla {
+  position: absolute;
+  top: -0.5rem;                 /* se sale un poco hacia arriba del padre */
+  left: 1rem;
+  font-family: 'Playfair Display', serif;
+  font-size: 6rem;
+  color: var(--dorado);
+  opacity: 0.15;                /* muy tenue, solo decorativa */
+  line-height: 1;
+  pointer-events: none;         /* no interfiere con clics */
+  user-select: none;
+}
+
+.resena-texto {
+  font-size: 0.92rem;
+  line-height: 1.7;
+  font-style: italic;
+  margin-bottom: 1.25rem;
+  position: relative;           /* z-index relativo para que el texto quede sobre la comilla */
+  z-index: 1;
+}
+
+.resena-autor {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  position: relative;
+  z-index: 1;
+}
+
+.resena-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--cafe-claro);
+  color: var(--crema);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.resena-autor strong { display: block; font-size: 0.85rem; }
+.resena-estrellas { font-size: 0.75rem; color: var(--dorado); letter-spacing: 0.05em; }
+
+/* ============================================================
+   POSITION — NEWSLETTER
+   · .newsletter-wrapper  → position: relative (ancla adornos)
+   · .nl-adorno           → position: absolute (fuera del flujo,
+                            decoración de fondo que no empuja contenido)
+   ============================================================ */
+
+.newsletter-seccion { background-color: var(--crema-oscura); }
+
+.newsletter-wrapper {
+  position: relative;           /* contexto para los adornos absolutos */
+  border-radius: 16px;
+  background-color: var(--cafe-oscuro);
+  padding: 4rem 5%;
+  overflow: hidden;
+  text-align: center;
+  color: var(--crema);
+}
+
+/* Adornos decorativos: position absolute, no ocupan espacio en el flujo */
+.nl-adorno {
+  position: absolute;
+  font-size: 5rem;
+  opacity: 0.06;
+  pointer-events: none;
+  user-select: none;
+  line-height: 1;
+}
+
+.nl-adorno-1 {
+  top: -1rem;
+  left: -1rem;
+  font-size: 8rem;
+  transform: rotate(-20deg);
+}
+
+.nl-adorno-2 {
+  bottom: -1.5rem;
+  right: 5%;
+  font-size: 7rem;
+  transform: rotate(15deg);
+}
+
+.nl-adorno-3 {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(10deg);
+  font-size: 12rem;
+}
+
+.newsletter-contenido {
+  position: relative;           /* z-index para que el contenido quede encima de adornos */
+  z-index: 1;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.newsletter-contenido h2 {
+  color: inherit;
+  margin-bottom: 0.5rem;
+}
+
+.newsletter-contenido > p {
+  opacity: 0.7;
+  font-size: 0.95rem;
+  margin-bottom: 1.75rem;
+}
+
+.newsletter-form {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.nl-input {
+  flex: 1 1 220px;
+  padding: 0.8rem 1.1rem;
+  border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background-color: rgba(255,255,255,0.08);
+  color: var(--crema);
+  font-family: inherit;
+  font-size: 0.9rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.nl-input::placeholder { color: rgba(245,239,230,0.4); }
+.nl-input:focus { border-color: var(--dorado); }
+
+.nl-aviso {
+  margin-top: 0.85rem;
+  font-size: 0.72rem;
+  opacity: 0.4;
+  margin-bottom: 0;
+}
+
+/* ============================================================
+   POSITION: FIXED — BOTÓN FLOTANTE
+   · position: fixed → se ancla a la VENTANA (viewport), no al documento.
+     Permanece visible siempre sin importar el scroll.
+   · Se diferencia de absolute en que absolute se ancla al padre
+     y fixed se ancla a la pantalla.
+   ============================================================ */
+.fab-menu {
+  position: fixed;              /* anclado al viewport, no al documento */
+  bottom: 2rem;                 /* 2rem desde el borde inferior de la pantalla */
+  right: 2rem;                  /* 2rem desde el borde derecho de la pantalla */
+  width: 54px;
+  height: 54px;
+  background-color: var(--dorado);
+  color: var(--cafe-oscuro);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.35);
+  z-index: 999;                 /* encima de todo el contenido */
+  transition: transform 0.2s, background-color 0.2s;
+  text-decoration: none;
+}
+
+.fab-menu:hover {
+  transform: scale(1.1) rotate(-10deg);
+  background-color: var(--cafe-claro);
+  color: var(--crema);
+}
+
+/* ============================================================
+   RESPONSIVE — POSITION
+   ============================================================ */
+@media (max-width: 600px) {
+  h1 { font-size: 2.2rem; }
+  h2 { font-size: 1.6rem; }
+
+  .navbar {
+    flex-direction: column;
+    gap: 0.75rem;
+    padding: 1rem 5%;
+  }
+
+  .nav-links { gap: 1.2rem; }
+  .hero { padding: 5rem 5% 4rem; min-height: auto; }
+
+  .barista-card { flex-direction: column; align-items: flex-start; }
+  .beneficio-numero { font-size: 1.4rem; flex: 0 0 36px; }
+
+  .stats-flex { min-height: auto; align-items: center; }
+  .stat-top, .stat-center, .stat-bottom { align-self: auto; }
+  .stat-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
+
+  .proceso-flex { min-height: auto; }
+  .proceso-alto, .proceso-medio, .proceso-bajo { align-self: auto; }
+
+  .planes-flex { place-content: flex-start center; }
+  .plan-card { max-width: 100%; }
+
+  /* Position: en móvil el mapa baja de altura */
+  .mapa-relativo { height: 260px; }
+  .mapa-leyenda  { font-size: 0.72rem; padding: 0.6rem 0.8rem; }
+
+  /* FAB: en móvil baja un poco para no tapar el contenido */
+  .fab-menu { bottom: 1.25rem; right: 1.25rem; width: 46px; height: 46px; font-size: 1.1rem; }
+
+  /* Newsletter en móvil */
+  .newsletter-form { flex-direction: column; }
+  .nl-input { flex: 1 1 auto; }
+}
+
+.grid{
+  background-color: #33221b;
+}
