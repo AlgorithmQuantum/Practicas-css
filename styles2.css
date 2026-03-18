@@ -344,6 +344,222 @@ ul { list-style: none; }
 }
 
 /* ============================================================
+   FLEXBOX — MÉTODOS DE PREPARACIÓN
+   Propiedades usadas:
+   · display: flex          → activa el contexto flex
+   · flex-wrap: wrap        → los hijos saltan a la siguiente línea
+   · gap                    → espacio entre items sin margin
+   · flex: 1 1 260px        → flex-grow, flex-shrink, flex-basis juntos
+   · flex-direction: column → el interior de cada card va en columna
+   · justify-content        → distribuye los hijos en el eje principal
+   · align-items            → alinea en el eje cruzado
+   · margin-top: auto       → empuja el tag al fondo (truco flex clásico)
+   ============================================================ */
+
+.metodos-flex {
+  display: flex;           /* activa Flexbox */
+  flex-wrap: wrap;         /* permite que los items pasen a la línea siguiente */
+  gap: 1.25rem;            /* espacio uniforme entre cards */
+  /* sin justify-content: se usa el valor por defecto flex-start */
+}
+
+.metodo-card {
+  display: flex;           /* flex anidado: el contenido interno también es flex */
+  flex-direction: column;  /* eje principal: vertical (icono → título → texto → tag) */
+  align-items: flex-start; /* alinea hijos al inicio del eje cruzado (izquierda) */
+  flex: 1 1 260px;         /* flex-grow:1 flex-shrink:1 flex-basis:260px */
+                           /* crece para llenar espacio, se encoge si necesario */
+  background-color: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  padding: 1.75rem 1.5rem;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.metodo-card:hover {
+  background-color: rgba(201,145,58,0.12);
+  border-color: var(--dorado);
+}
+
+.metodo-icono {
+  font-size: 2rem;
+  margin-bottom: 0.85rem;
+  line-height: 1;
+}
+
+.metodo-card h3 { margin-bottom: 0.5rem; }
+
+.metodo-card p {
+  font-size: 0.88rem;
+  opacity: 0.75;
+  margin-bottom: 0;
+  flex: 1;                 /* ocupa todo el espacio disponible */
+                           /* empuja el .metodo-tag hacia abajo */
+}
+
+.metodo-tag {
+  display: inline-block;
+  margin-top: 1.1rem;      /* separación del párrafo */
+  /* alternativa con flex: podría usar margin-top: auto si p no tuviera flex:1 */
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--dorado);
+  border: 1px solid var(--dorado);
+  padding: 0.2rem 0.6rem;
+  border-radius: 3px;
+}
+
+/* ============================================================
+   FLEXBOX — EQUIPO / BARISTAS
+   Propiedades usadas:
+   · flex-direction: row (default)  → cards en fila
+   · flex-wrap: wrap                → responsive automático
+   · align-items: stretch           → todas las cards tienen igual alto
+   · flex dentro de .barista-card   → icono + texto en fila
+   · align-items: center            → avatar centrado verticalmente
+   · flex: 0 0 auto                 → el avatar no crece ni se encoge
+   · flex: 1                        → el texto ocupa el resto
+   · order                          → cambia el orden visual del badge
+   ============================================================ */
+
+.equipo-flex {
+  display: flex;
+  flex-direction: row;      /* eje principal: horizontal (default) */
+  flex-wrap: wrap;          /* salta línea si no caben */
+  gap: 1.5rem;
+  align-items: stretch;     /* todas las cards tienen la misma altura */
+}
+
+.barista-card {
+  display: flex;            /* flex anidado */
+  flex-direction: row;      /* avatar a la izquierda, texto a la derecha */
+  align-items: center;      /* centrado vertical entre avatar y texto */
+  gap: 1.25rem;
+  flex: 1 1 280px;          /* base 280px, crece y se encoge */
+  position: relative;
+  background-color: var(--crema-oscura);
+  border-radius: 10px;
+  padding: 1.5rem;
+  border-left: 3px solid var(--cafe-claro);
+}
+
+.destacado-equipo {
+  border-left-color: var(--dorado);
+  background-color: var(--cafe-oscuro);
+  color: var(--crema);
+  flex: 1 1 340px;          /* flex-basis mayor: ocupa más espacio */
+}
+
+.barista-avatar {
+  display: flex;
+  justify-content: center;  /* texto centrado horizontalmente en el avatar */
+  align-items: center;      /* texto centrado verticalmente en el avatar */
+  flex: 0 0 56px;           /* flex-grow:0 flex-shrink:0 → tamaño fijo */
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background-color: var(--cafe-claro);
+  color: var(--crema);
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.barista-avatar.dorado { background-color: var(--dorado); color: var(--cafe-oscuro); }
+
+.barista-info {
+  display: flex;
+  flex-direction: column;   /* nombre → rol → descripción en columna */
+  flex: 1;                  /* ocupa todo el ancho restante */
+  gap: 0.25rem;
+}
+
+.barista-info h3 { font-size: 1.05rem; margin: 0; }
+
+.barista-rol {
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--dorado);
+}
+
+.barista-info p {
+  font-size: 0.85rem;
+  opacity: 0.8;
+  margin: 0.3rem 0 0;
+}
+
+.barista-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background-color: var(--dorado);
+  color: var(--cafe-oscuro);
+  padding: 0.15rem 0.5rem;
+  border-radius: 3px;
+  order: -1;               /* aunque está al final del HTML, aparece primero visualmente */
+}
+
+/* ============================================================
+   FLEXBOX — BENEFICIOS
+   Propiedades usadas:
+   · flex-direction: column          → lista vertical
+   · flex-direction: row             → número + texto en fila (anidado)
+   · justify-content: flex-start     → contenido arriba
+   · align-items: flex-start         → alineación izquierda
+   · flex: 0 0 auto / flex: 1        → proporciones controladas
+   · align-self                      → un item se alinea diferente al resto
+   ============================================================ */
+
+.beneficios-seccion { background-color: var(--crema-oscura); }
+
+.beneficios-flex {
+  display: flex;
+  flex-direction: column;   /* lista de beneficios apilada verticalmente */
+  gap: 0;
+}
+
+.beneficio-item {
+  display: flex;            /* flex anidado: número + texto en fila */
+  flex-direction: row;      /* número a la izquierda, texto a la derecha */
+  align-items: flex-start;  /* alineados al tope */
+  gap: 1.5rem;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--crema-oscura);
+  border-bottom-color: color-mix(in srgb, var(--cafe-claro) 25%, transparent);
+}
+
+.beneficio-item:last-child { border-bottom: none; }
+
+.beneficio-numero {
+  flex: 0 0 48px;           /* ancho fijo, no crece ni se encoge */
+  font-family: 'Playfair Display', serif;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--dorado);
+  line-height: 1;
+  align-self: center;       /* centrado vertical solo este elemento */
+                            /* los demás usan align-items: flex-start */
+}
+
+.beneficio-texto {
+  flex: 1;                  /* ocupa todo el espacio disponible */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 0.25rem;
+}
+
+.beneficio-texto h4 { margin: 0; }
+.beneficio-texto p  { margin: 0; font-size: 0.95rem; opacity: 0.8; }
+
+/* ============================================================
    RESPONSIVE
    ============================================================ */
 @media (max-width: 600px) {
@@ -359,7 +575,16 @@ ul { list-style: none; }
   .nav-links { gap: 1.2rem; }
 
   .hero { padding: 5rem 5% 4rem; min-height: auto; }
+
+  /* Flexbox: en móvil las barista-cards van en columna */
+  .barista-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .beneficio-numero { font-size: 1.4rem; flex: 0 0 36px; }
 }
+
 .grid{
-    background-color: black;
+  background-color: #33221b;
 }
