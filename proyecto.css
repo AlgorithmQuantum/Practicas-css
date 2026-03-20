@@ -1,0 +1,1382 @@
+/* ============================================================
+   scp-styles.css · SCP Foundation — Base de Datos Clasificada
+   ============================================================
+   TEMAS CSS CUBIERTOS:
+   1. HERENCIA       → body define font, color, line-height
+                       que se propagan a todos los hijos.
+                       inherit, currentColor, em acumulativo.
+   2. FLEXBOX        → display:flex, flex-wrap, gap,
+                       flex-direction, flex: grow/shrink/basis.
+   3. ALINEACIÓN     → justify-content, align-items, align-self,
+                       align-content, place-content, baseline.
+   4. POSITION       → static, relative, absolute, fixed, sticky.
+                       top/right/bottom/left, z-index, overflow.
+   5. MEDIA QUERIES  → Mobile-first, breakpoints xs/sm/md/lg/xl,
+                       clamp(), prefers-reduced-motion, print.
+   ============================================================ */
+
+/* ──────────────────────────────────────────────────────────────
+   VARIABLES
+   ────────────────────────────────────────────────────────────── */
+:root {
+  --negro:        #0a0a0a;
+  --gris-oscuro:  #111111;
+  --gris-medio:   #1c1c1c;
+  --gris-claro:   #2a2a2a;
+  --gris-borde:   #333333;
+  --crema:        #d4c9a8;
+  --crema-oscura: #b0a07a;
+  --rojo:         #cc0000;
+  --rojo-oscuro:  #8b0000;
+  --rojo-suave:   #ff2222;
+  --verde:        #1a4a1a;
+  --verde-claro:  #2d6e2d;
+  --amarillo:     #c8a838;
+  --texto:        #c8bfa0;
+  --texto-muted:  #6e6655;
+}
+
+/* ──────────────────────────────────────────────────────────────
+   RESET MÍNIMO
+   ────────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ============================================================
+   1. HERENCIA — body como raíz de propagación
+   Todas las propiedades heredables aquí se propagan
+   automáticamente a cada elemento del documento.
+   ============================================================ */
+body {
+  /* Estas propiedades se HEREDAN por todos los hijos */
+  font-family:    'Share Tech Mono', monospace; /* heredado */
+  font-size:      16px;                          /* base para em */
+  color:          var(--texto);                  /* heredado */
+  line-height:    1.7;                           /* heredado */
+  letter-spacing: 0.03em;                        /* heredado */
+
+  background-color: var(--negro);
+  min-height: 100vh;
+  /* Cursor personalizado: pequeña cruz */
+  cursor: crosshair;
+}
+
+/* h1–h4 heredan color del body/padre, solo cambian font y tamaño */
+h1, h2, h3, h4 {
+  font-family: 'Oswald', sans-serif; /* sobreescribe font heredado */
+  line-height:  1.15;                /* sobreescribe line-height */
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  /* color: SE HEREDA del ancestro más cercano */
+}
+
+/* Escala tipográfica fluida con clamp() — sin @media */
+h1 { font-size: clamp(2rem,   5vw, 3.8rem); }
+h2 { font-size: clamp(1.4rem, 3vw, 2.2rem); }
+h3 { font-size: clamp(1rem,   2vw, 1.3rem); }
+h4 { font-size: clamp(0.9rem, 1.5vw, 1rem); }
+
+p  { margin-bottom: 0.75rem; }
+a  {
+  color: inherit;           /* inherit explícito: hereda el color del padre */
+  text-decoration: none;
+}
+ul { list-style: none; }
+
+/* Redactado: simula texto censurado */
+.redactado {
+  background-color: var(--texto);
+  color: transparent;             /* hereda font pero oculta el texto */
+  user-select: none;
+  border-radius: 2px;
+  font-size: 0.9em;               /* em: relativo al font-size del padre */
+}
+
+/* currentColor — borde y decoraciones usan el color del texto */
+.seccion-encabezado h2 {
+  border-bottom: 2px solid currentColor; /* usa el color heredado */
+  display: inline-block;
+  padding-bottom: 0.3rem;
+}
+
+/* ============================================================
+   4. POSITION: FIXED — Alerta global, siempre visible
+   Anclada al viewport, no al documento.
+   ============================================================ */
+.alerta-global {
+  position: fixed;       /* anclado al viewport */
+  top: 0; left: 0; right: 0;  /* barra superior de pantalla completa */
+  z-index: 9999;         /* encima de absolutamente todo */
+  background-color: var(--rojo);
+  color: var(--crema);   /* los hijos heredarían este color */
+  font-size: clamp(0.55rem, 1.2vw, 0.7rem);
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-align: center;
+  padding: 0.35rem 1rem;
+  border-bottom: 1px solid var(--rojo-suave);
+  animation: parpadeo-alerta 3s ease-in-out infinite;
+}
+
+@keyframes parpadeo-alerta {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0.7; }
+}
+
+/* ============================================================
+   2. FLEXBOX + 4. POSITION: STICKY — Navbar
+   display: flex con justify-content: space-between
+   position: sticky: se pega al tope al scrollear
+   ============================================================ */
+.navbar {
+  position: sticky;      /* se queda fijo al llegar al tope */
+  top: 25px;             /* justo debajo de la alerta-global fija */
+  z-index: 1000;
+
+  display: flex;                   /* Flexbox */
+  flex-direction: row;             /* fila (default) */
+  justify-content: space-between;  /* logo izq, links der */
+  align-items: center;             /* centrado vertical */
+  flex-wrap: wrap;                 /* wrap en móvil */
+  gap: 0.75rem;
+
+  background-color: rgba(10,10,10,0.97);
+  border-bottom: 2px solid var(--rojo);
+  padding: 0.85rem 5%;
+  backdrop-filter: blur(8px);
+}
+
+/* 1. HERENCIA: .nav-logo hereda color y font del body */
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  /* color: hereda var(--texto) del body */
+}
+
+.logo-simbolo {
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  color: var(--rojo);              /* sobreescribe color heredado */
+  animation: rotar-lento 20s linear infinite;
+}
+
+@keyframes rotar-lento {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.logo-texto {
+  display: flex;
+  flex-direction: column;   /* título arriba, lema abajo */
+  gap: 0;
+}
+
+.logo-titulo {
+  font-family: 'Oswald', sans-serif; /* sobreescribe font heredado */
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--crema);
+}
+
+.logo-lema {
+  font-size: 0.58rem;
+  letter-spacing: 0.12em;
+  color: var(--rojo);
+  text-transform: uppercase;
+}
+
+/* 2. FLEXBOX: nav-links en fila con gap */
+.nav-links {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.25rem 1.75rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  /* color, font: HEREDADOS del navbar → body */
+}
+
+.nav-links a {
+  font-size: clamp(0.65rem, 1.2vw, 0.78rem);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.75;
+  padding: 0.3rem 0.2rem;
+  border-bottom: 1px solid transparent;
+  transition: opacity 0.2s, border-color 0.2s;
+  /* color: inherit → hereda del .nav-links → body */
+}
+
+.nav-links a:hover {
+  opacity: 1;
+  border-bottom-color: var(--rojo);
+  color: var(--crema);
+}
+
+.nav-acceso {
+  background-color: var(--rojo);
+  color: var(--negro) !important;
+  padding: 0.3rem 0.9rem !important;
+  border-radius: 2px;
+  opacity: 1 !important;
+  font-weight: 700;
+}
+
+.nav-toggle {
+  display: none; /* solo visible en móvil vía @media */
+  background: none;
+  border: 1px solid var(--gris-borde);
+  color: inherit;
+  font-size: 1.2rem;
+  padding: 0.3rem 0.6rem;
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+/* ============================================================
+   2+3. FLEXBOX + ALINEACIÓN — HERO
+   display:flex, align-items:center, justify-content:center
+   4. POSITION: relative en hero, absolute en decoraciones
+   1. HERENCIA: color crema propaga a h1, p, .hero-eyebrow
+   ============================================================ */
+.hero {
+  position: relative;     /* contexto para hijos absolutos */
+  min-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: clamp(4rem, 8vw, 8rem) 5% clamp(3rem, 6vw, 6rem);
+
+  background-color: var(--gris-oscuro);
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(204,0,0,0.03) 2px,
+      rgba(204,0,0,0.03) 4px
+    ),
+    radial-gradient(ellipse at 80% 50%, rgba(139,0,0,0.15) 0%, transparent 60%);
+
+  color: var(--crema);    /* HEREDA a h1, p, spans dentro del hero */
+  border-bottom: 2px solid var(--rojo);
+  overflow: hidden;
+}
+
+/* Sello CLASIFICADO: position absolute → fuera del flujo */
+.hero-clasificado {
+  position: absolute;
+  top: 3rem;
+  right: 5%;
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(1.5rem, 4vw, 3rem);
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  color: var(--rojo);
+  opacity: 0.12;
+  transform: rotate(-15deg);
+  pointer-events: none;
+  user-select: none;
+}
+
+/* Número de expediente: position absolute → esquina inferior derecha */
+.hero-expediente {
+  position: absolute;
+  bottom: 1.5rem;
+  right: 5%;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: var(--texto-muted);  /* sobreescribe color heredado del hero */
+  opacity: 0.6;
+}
+
+.hero-contenido {
+  position: relative;     /* z-index para estar sobre las decoraciones absolutas */
+  z-index: 1;
+  max-width: 720px;
+}
+
+.hero-nivel {
+  font-size: clamp(0.6rem, 1.5vw, 0.75rem);
+  letter-spacing: 0.2em;
+  color: var(--rojo);     /* sobreescribe color heredado */
+  margin-bottom: 1rem;
+  /* font-family: hereda 'Share Tech Mono' del body */
+}
+
+/* h1 hereda color: crema del .hero */
+.hero h1 {
+  margin-bottom: 1.5rem;
+  text-shadow: 0 0 30px rgba(204,0,0,0.3);
+}
+
+.hero h1 em {
+  font-style: normal;
+  color: var(--rojo);     /* solo em cambia color, hereda font-family y tamaño */
+}
+
+.hero-sub {
+  font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+  opacity: 0.8;
+  margin-bottom: 2.5rem;
+  max-width: 560px;
+  /* color: hereda crema del .hero */
+}
+
+/* 3. ALINEACIÓN: botones en fila con gap */
+.hero-acciones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;    /* centrado vertical entre botones */
+}
+
+/* Estado en línea: position absolute → esquina inferior izquierda */
+.hero-estado {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 5%;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.12em;
+  color: var(--verde-claro); /* sobreescribe color del hero */
+  z-index: 1;
+}
+
+.estado-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background-color: currentColor; /* usa el color del padre (.hero-estado) */
+  animation: pulso-estado 2s ease-in-out infinite;
+}
+
+@keyframes pulso-estado {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.8); }
+}
+
+/* ──────────────────────────────────────────────────────────────
+   BOTONES — font: inherit (herencia explícita)
+   ────────────────────────────────────────────────────────────── */
+.btn {
+  display: inline-block;
+  font-family: inherit;          /* inherit explícito: hereda 'Share Tech Mono' */
+  font-size: clamp(0.65rem, 1.2vw, 0.78rem);
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.75rem 1.75rem;
+  border-radius: 2px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.15s, color 0.2s;
+}
+
+.btn-peligro {
+  background-color: var(--rojo);
+  color: var(--crema);
+}
+.btn-peligro:hover { background-color: var(--rojo-suave); transform: translateY(-2px); }
+
+.btn-ghost {
+  background-color: transparent;
+  color: var(--crema);
+  border: 1px solid var(--gris-borde);
+}
+.btn-ghost:hover { border-color: var(--rojo); color: var(--rojo); }
+
+.btn-mini {
+  font-size: 0.62rem;
+  padding: 0.3rem 0.8rem;
+  background-color: var(--gris-claro);
+  color: var(--texto);
+  border: 1px solid var(--gris-borde);
+}
+.btn-mini:hover { border-color: var(--rojo); color: var(--rojo); }
+
+.btn-alerta  { border-color: var(--amarillo) !important; color: var(--amarillo) !important; }
+.btn-keter   { border-color: var(--rojo) !important;     color: var(--rojo) !important; }
+.btn-safe    { border-color: var(--verde-claro) !important; color: var(--verde-claro) !important; }
+
+/* ──────────────────────────────────────────────────────────────
+   ADVERTENCIA BANDA
+   1. HERENCIA: color y font desde .advertencia-banda
+   ────────────────────────────────────────────────────────────── */
+.advertencia-banda {
+  background-color: var(--rojo-oscuro);
+  color: var(--crema);           /* heredado por p, span hijos */
+  border-top: 1px solid var(--rojo);
+  border-bottom: 1px solid var(--rojo);
+  padding: 1rem 5%;
+}
+
+.advertencia-contenido {
+  display: flex;                 /* Flexbox */
+  align-items: flex-start;       /* 3. ALINEACIÓN */
+  gap: 1rem;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.adv-icono {
+  font-size: 1.2rem;
+  flex-shrink: 0;                /* no se encoge aunque el texto crezca */
+  /* color: hereda crema de .advertencia-banda */
+}
+
+.advertencia-contenido p {
+  font-size: clamp(0.72rem, 1.5vw, 0.82rem);
+  margin: 0;
+  /* color y font: HEREDADOS de .advertencia-banda */
+}
+
+/* ──────────────────────────────────────────────────────────────
+   SECCIONES BASE
+   ────────────────────────────────────────────────────────────── */
+.seccion {
+  padding: clamp(3rem, 6vw, 5rem) 5%;
+  border-bottom: 1px solid var(--gris-borde);
+}
+
+/* 3. ALINEACIÓN: encabezado con space-between */
+.seccion-encabezado {
+  display: flex;
+  justify-content: space-between; /* título izq, sello der */
+  align-items: flex-end;           /* alineados por la base inferior */
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.seccion-encabezado h2 { color: var(--crema); }
+
+.sello-seccion {
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  border: 1px solid currentColor; /* currentColor = color heredado */
+  padding: 0.2rem 0.6rem;
+  border-radius: 2px;
+  color: var(--texto-muted);
+  align-self: flex-start;         /* 3. ALINEACIÓN: este elemento arriba */
+}
+.sello-rojo { color: var(--rojo); }
+
+.seccion-sub {
+  font-size: clamp(0.78rem, 1.5vw, 0.9rem);
+  color: var(--texto-muted);
+  margin-bottom: 2.5rem;
+  max-width: 700px;
+}
+
+/* ============================================================
+   2+3. FLEXBOX + ALINEACIÓN — ENTRADAS SCP
+   flex-wrap, gap, flex:1 1 base, align-items:stretch
+   4. POSITION: relative en cards, absolute en badges
+   1. HERENCIA: color desde .scp-card a h3, p, .scp-descripcion
+   ============================================================ */
+.entradas-seccion { background-color: var(--gris-oscuro); }
+
+.entradas-flex {
+  display: flex;
+  flex-wrap: wrap;           /* items saltan de línea */
+  gap: 1.25rem;
+  align-items: stretch;      /* 3. ALINEACIÓN: todas las cards igual alto */
+}
+
+.scp-card {
+  position: relative;        /* 4. POSITION: contexto para badges absolutos */
+  display: flex;
+  flex-direction: column;    /* 2. FLEXBOX: contenido vertical */
+  flex: 1 1 260px;           /* flex-grow:1 flex-shrink:1 basis:260px */
+  background-color: var(--gris-medio);
+  border: 1px solid var(--gris-borde);
+  border-top: 3px solid var(--gris-borde);
+  border-radius: 3px;
+  padding: 1.5rem 1.25rem 1.25rem;
+  overflow: hidden;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  /* color y font: HEREDADOS del body → .entradas-seccion */
+}
+
+.scp-card:hover {
+  border-color: var(--rojo);
+  box-shadow: 0 0 20px rgba(204,0,0,0.15);
+}
+
+.clase-euclid { border-top-color: var(--amarillo); }
+.clase-keter  { border-top-color: var(--rojo); }
+.clase-safe   { border-top-color: var(--verde-claro); }
+
+/* 4. POSITION: absolute → badge de clase anclado a la card */
+.clase-badge {
+  position: absolute;
+  top: 0; right: 0;          /* esquina superior derecha del padre */
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  padding: 0.2rem 0.6rem;
+  background-color: var(--gris-claro);
+  color: var(--texto-muted);
+  border-radius: 0 0 0 4px;  /* solo esquina inferior izquierda */
+}
+.badge-alerta { background-color: var(--amarillo); color: var(--negro); }
+.badge-keter  { background-color: var(--rojo);     color: var(--crema); }
+.badge-safe   { background-color: var(--verde);    color: var(--verde-claro); }
+
+.scp-numero {
+  font-family: 'Oswald', sans-serif; /* sobreescribe font heredado */
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  color: var(--texto-muted);
+  margin-bottom: 0.5rem;
+}
+
+.scp-icono {
+  font-size: clamp(1.8rem, 3vw, 2.5rem);
+  margin-bottom: 0.75rem;
+  filter: grayscale(60%);
+}
+
+/* h3 dentro de .scp-card hereda color del body, solo cambia font via h3 selector */
+.scp-nombre {
+  margin-bottom: 0.6rem;
+  color: var(--crema);       /* sobreescribe color heredado */
+}
+
+.scp-descripcion {
+  font-size: clamp(0.78rem, 1.4vw, 0.85rem);
+  opacity: 0.75;
+  flex: 1;                   /* 2. FLEXBOX: ocupa espacio → empuja footer abajo */
+  margin-bottom: 1rem;
+  /* color: HEREDA del body */
+}
+
+/* 3. ALINEACIÓN: footer de la card */
+.scp-footer {
+  display: flex;
+  justify-content: space-between; /* nivel izq, botón der */
+  align-items: center;             /* centrado vertical */
+  margin-top: auto;                /* empujado al fondo con margin-top:auto */
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--gris-borde);
+}
+
+.scp-nivel {
+  font-size: 0.62rem;
+  letter-spacing: 0.1em;
+  color: var(--texto-muted);
+}
+
+.scp-destacado {
+  flex-basis: 320px;              /* base más grande para la card destacada */
+}
+
+/* ============================================================
+   3. ALINEACIÓN FLEXBOX — CLASIFICACIÓN
+   align-self individual por card (top / center / end)
+   place-content en el contenedor
+   ============================================================ */
+.clasificacion-seccion { background-color: var(--negro); }
+
+.clases-flex {
+  display: flex;
+  flex-wrap: wrap;
+  place-content: center;          /* 3. ALINEACIÓN: align-content + justify-content */
+  align-items: center;            /* base: todas centradas */
+  gap: 1.25rem;
+  min-height: 380px;
+}
+
+.clase-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 0.75rem;
+  flex: 1 1 220px;
+  max-width: 300px;
+  background-color: var(--gris-medio);
+  border: 1px solid var(--gris-borde);
+  border-radius: 3px;
+  padding: 1.75rem 1.5rem;
+  position: relative;
+  /* color y font: HEREDADOS del body */
+}
+
+/* align-self individual sobreescribe align-items: center del padre */
+.clase-safe-card  { align-self: flex-start; border-top: 3px solid var(--verde-claro); }
+.clase-euclid-card { align-self: center; border-top: 3px solid var(--amarillo); padding-top: 2.5rem; }
+.clase-keter-card { align-self: flex-end; border-top: 3px solid var(--rojo); }
+
+.clase-destacada-label {
+  position: absolute;          /* 4. POSITION: absolute dentro de la card */
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  background-color: var(--amarillo);
+  color: var(--negro);
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  padding: 0.2rem 0.8rem;
+  border-radius: 0 0 4px 4px;
+  white-space: nowrap;
+}
+
+/* 3. ALINEACIÓN: encabezado de la clase en fila */
+.clase-header {
+  display: flex;
+  align-items: baseline;        /* icono y título por línea de base */
+  gap: 0.75rem;
+}
+
+.clase-icono {
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  /* color: hereda del body */
+}
+
+.clase-safe-card   .clase-icono { color: var(--verde-claro); }
+.clase-euclid-card .clase-icono { color: var(--amarillo); }
+.clase-keter-card  .clase-icono { color: var(--rojo); }
+
+.clase-card h3 {
+  color: var(--crema);          /* sobreescribe color heredado */
+  font-size: clamp(1rem, 2vw, 1.3rem);
+}
+
+.clase-card p {
+  font-size: clamp(0.78rem, 1.4vw, 0.85rem);
+  opacity: 0.75;
+  /* color: HEREDA del body */
+}
+
+.clase-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.clase-lista li {
+  font-size: 0.78rem;
+  padding-left: 1rem;
+  position: relative;
+  /* color: HEREDA del body */
+}
+
+.clase-lista li::before {
+  content: '›';
+  position: absolute;          /* 4. POSITION: marcador de lista */
+  left: 0;
+  color: var(--rojo);
+}
+
+.clase-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-top: auto;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--gris-borde);
+}
+
+.clase-porcentaje {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 700;
+  line-height: 1;
+}
+
+.clase-safe-card   .clase-porcentaje { color: var(--verde-claro); }
+.clase-euclid-card .clase-porcentaje { color: var(--amarillo); }
+.clase-keter-card  .clase-porcentaje { color: var(--rojo); }
+
+.clase-stat span:last-child {
+  font-size: 0.65rem;
+  color: var(--texto-muted);
+  margin-top: 0.2rem;
+}
+
+/* ============================================================
+   3. ALINEACIÓN — ESTADÍSTICAS
+   align-items base + align-self individual por item
+   ============================================================ */
+.stats-seccion {
+  background-color: var(--gris-oscuro);
+  color: var(--crema);              /* HEREDA a h2, p, spans hijos */
+}
+
+.stats-seccion .seccion-encabezado h2 { color: inherit; }
+.stats-seccion .seccion-sub { color: inherit; opacity: 0.5; }
+
+.stats-flex {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-end;            /* 3. ALINEACIÓN base: todos al fondo */
+  gap: 0;
+  min-height: 200px;
+  border-top: 1px solid var(--gris-borde);
+  padding-top: 2rem;
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  text-align: center;
+  padding: 1.5rem 2rem;
+  flex: 1 1 140px;
+  border-right: 1px solid var(--gris-borde);
+}
+
+.stat-item:last-child { border-right: none; }
+
+/* align-self sobreescribe el align-items: flex-end del padre */
+.stat-top    { align-self: flex-start; }
+.stat-center { align-self: center; }
+.stat-bottom { align-self: flex-end; }
+
+.stat-numero {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  font-weight: 700;
+  color: var(--rojo);
+  line-height: 1;
+  display: block;
+}
+
+.stat-label {
+  font-size: clamp(0.62rem, 1.2vw, 0.72rem);
+  opacity: 0.5;
+  max-width: 120px;
+  margin-top: 0.5rem;
+  line-height: 1.4;
+  /* color: HEREDA crema de .stats-seccion */
+}
+
+/* ============================================================
+   2. FLEXBOX + 4. POSITION — PERSONAL
+   flex-direction: row en cards, absolute en badges de rango
+   ============================================================ */
+.personal-seccion { background-color: var(--negro); }
+
+.personal-flex {
+  display: flex;
+  flex-direction: row;              /* 2. FLEXBOX */
+  flex-wrap: wrap;
+  gap: 1.25rem;
+  align-items: stretch;             /* 3. ALINEACIÓN */
+}
+
+.agente-card {
+  position: relative;               /* 4. POSITION: contexto para badge */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1.25rem;
+  flex: 1 1 280px;
+  background-color: var(--gris-medio);
+  border: 1px solid var(--gris-borde);
+  border-left: 3px solid var(--gris-claro);
+  border-radius: 3px;
+  padding: 1.5rem;
+  /* color y font: HEREDADOS del body */
+}
+
+.agente-destacado {
+  border-left-color: var(--rojo);
+  background-color: rgba(139,0,0,0.1);
+}
+
+.agente-avatar {
+  display: flex;
+  justify-content: center;          /* 3. ALINEACIÓN */
+  align-items: center;
+  flex: 0 0 56px;                   /* 2. FLEXBOX: tamaño fijo */
+  width: 56px; height: 56px;
+  border-radius: 3px;
+  background-color: var(--gris-claro);
+  border: 1px solid var(--gris-borde);
+  font-family: 'Oswald', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--texto-muted);
+}
+
+.agente-o5 {
+  background-color: var(--rojo-oscuro);
+  border-color: var(--rojo);
+  color: var(--crema);
+}
+
+.agente-info {
+  display: flex;
+  flex-direction: column;           /* 2. FLEXBOX */
+  flex: 1;                          /* ocupa el resto del ancho */
+  gap: 0.3rem;
+}
+
+.agente-info h3 {
+  font-size: clamp(0.9rem, 1.8vw, 1.05rem);
+  color: var(--crema);
+  margin: 0;
+}
+
+.agente-rol {
+  font-size: 0.65rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--rojo);
+}
+
+.agente-info p {
+  font-size: 0.8rem;
+  opacity: 0.65;
+  margin: 0;
+  /* color: HEREDA del body */
+}
+
+/* 4. POSITION: absolute en esquina superior derecha */
+.agente-badge {
+  position: absolute;
+  top: 0.75rem; right: 0.75rem;
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  background-color: var(--gris-claro);
+  color: var(--texto-muted);
+  padding: 0.15rem 0.5rem;
+  border-radius: 2px;
+}
+
+.badge-o5 {
+  background-color: var(--rojo);
+  color: var(--crema);
+}
+
+/* ============================================================
+   2+4. FLEXBOX + POSITION — INSTALACIONES
+   flex-wrap, justify-content space-between
+   position: relative en cards, absolute en etiquetas y corner
+   ============================================================ */
+.instalaciones-seccion { background-color: var(--gris-oscuro); }
+
+.instalaciones-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;   /* 3. ALINEACIÓN */
+  align-items: stretch;
+  gap: 1.25rem;
+}
+
+.instalacion-card {
+  position: relative;               /* 4. POSITION: contexto */
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 220px;
+  background-color: var(--gris-medio);
+  border: 1px solid var(--gris-borde);
+  border-radius: 3px;
+  padding: 1.5rem 1.25rem 1.25rem;
+  overflow: hidden;
+  gap: 0.6rem;
+  /* color y font: HEREDADOS del body */
+}
+
+/* 4. POSITION: absolute → etiqueta de estado en esquina superior izquierda */
+.inst-etiqueta {
+  position: absolute;
+  top: 0; left: 0;
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.6rem;
+  background-color: var(--verde);
+  color: var(--verde-claro);
+  border-radius: 0 0 4px 0;
+}
+
+.inst-etiqueta-roja  { background-color: var(--rojo-oscuro); color: var(--rojo-suave); }
+.inst-etiqueta-gris  { background-color: var(--gris-claro); color: var(--texto-muted); }
+
+/* 4. POSITION: absolute → esquina inferior derecha */
+.inst-corner {
+  position: absolute;
+  bottom: 0; right: 0;
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 0.2rem 0.6rem;
+  background-color: rgba(204,0,0,0.15);
+  color: var(--rojo);
+  border-radius: 4px 0 0 0;
+}
+
+.inst-icono {
+  font-size: clamp(1.6rem, 3vw, 2rem);
+  margin-top: 0.75rem;
+}
+
+.instalacion-card h3 {
+  color: var(--crema);
+  font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+}
+
+.instalacion-card p {
+  font-size: clamp(0.75rem, 1.3vw, 0.82rem);
+  opacity: 0.7;
+  flex: 1;
+  margin: 0;
+}
+
+/* 3. ALINEACIÓN: info con space-between */
+.inst-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.6rem;
+  border-top: 1px solid var(--gris-borde);
+  font-size: 0.68rem;
+  color: var(--texto-muted);
+}
+
+.inst-nivel { color: var(--crema); }
+.inst-nivel-rojo { color: var(--rojo); }
+
+.inst-alerta { border-color: var(--rojo); }
+.inst-destruida { opacity: 0.5; }
+
+/* ============================================================
+   1. HERENCIA + FLEXBOX — PROTOCOLOS
+   flex-direction: column (contenedor) + row (items)
+   Herencia: color desde .protocolos-seccion → hijos
+   ============================================================ */
+.protocolos-seccion { background-color: var(--negro); }
+
+.protocolos-grid {
+  display: flex;
+  flex-direction: column;           /* 2. FLEXBOX: lista vertical */
+  gap: 0;
+}
+
+.protocolo-item {
+  display: flex;
+  flex-direction: row;              /* 2. FLEXBOX: número + texto en fila */
+  align-items: flex-start;          /* 3. ALINEACIÓN */
+  gap: 1.5rem;
+  padding: 1.5rem 0;
+  border-bottom: 1px solid var(--gris-borde);
+  /* color y font: HEREDADOS del body */
+}
+
+.protocolo-item:last-child { border-bottom: none; }
+
+.protocolo-activo {
+  background-color: rgba(139,0,0,0.08);
+  padding: 1.5rem 1rem;
+  border: 1px solid var(--rojo-oscuro);
+  border-radius: 3px;
+  margin-bottom: 1px;
+}
+
+.protocolo-num {
+  flex: 0 0 56px;                   /* 2. FLEXBOX: tamaño fijo */
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 700;
+  color: var(--rojo);
+  line-height: 1;
+  align-self: center;               /* 3. ALINEACIÓN: solo este se centra */
+}
+
+.protocolo-texto {
+  flex: 1;                          /* ocupa el resto */
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.protocolo-texto h4 {
+  color: var(--crema);
+  margin: 0;
+}
+
+.protocolo-texto p {
+  font-size: clamp(0.78rem, 1.4vw, 0.88rem);
+  opacity: 0.7;
+  margin: 0;
+  /* color: HEREDA del body */
+}
+
+/* ============================================================
+   TABLA DE REGISTROS
+   Media queries: tabla en desktop → tarjetas en móvil
+   ============================================================ */
+.tabla-seccion { background-color: var(--gris-oscuro); }
+
+.tabla-wrapper { overflow-x: auto; }
+
+.tabla-registros {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: clamp(0.72rem, 1.3vw, 0.85rem);
+  /* color y font: HEREDADOS del body */
+}
+
+/* MÓVIL BASE: tabla → tarjetas */
+.tabla-registros thead       { display: none; }
+.tabla-registros tbody tr {
+  display: block;
+  margin-bottom: 0.85rem;
+  border: 1px solid var(--gris-borde);
+  border-radius: 3px;
+  padding: 0.85rem 1rem;
+  background-color: var(--gris-medio);
+}
+
+.tabla-registros td {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.35rem 0;
+  border-bottom: 1px solid var(--gris-claro);
+}
+.tabla-registros td:last-child { border-bottom: none; }
+
+/* data-label como encabezado en móvil */
+.tabla-registros td::before {
+  content: attr(data-label);
+  font-weight: 700;
+  font-size: 0.6rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--texto-muted);
+  flex-shrink: 0;
+  margin-right: 0.75rem;
+}
+
+.col-ubicacion { display: none; }
+
+.fila-alerta    { border-color: var(--amarillo) !important; }
+.fila-denegada  { border-color: var(--rojo) !important; opacity: 0.7; }
+
+.nivel-badge {
+  font-size: 0.6rem; font-weight: 700; letter-spacing: 0.08em;
+  padding: 0.15rem 0.45rem; border-radius: 2px;
+  text-transform: uppercase;
+}
+.nivel-1 { background-color: var(--verde);    color: var(--verde-claro); }
+.nivel-2 { background-color: var(--gris-claro); color: var(--crema-oscura); }
+.nivel-4 { background-color: var(--rojo-oscuro); color: var(--rojo-suave); }
+.nivel-5 { background-color: var(--negro); color: var(--rojo); border: 1px solid var(--rojo); }
+
+.estado-badge {
+  font-size: 0.6rem; font-weight: 700; letter-spacing: 0.08em;
+  padding: 0.15rem 0.5rem; border-radius: 2px;
+  text-transform: uppercase;
+}
+.estado-ok       { background-color: var(--verde); color: var(--verde-claro); }
+.estado-alerta   { background-color: #4a3800; color: var(--amarillo); }
+.estado-denegado { background-color: var(--rojo-oscuro); color: var(--rojo-suave); }
+
+/* ──────────────────────────────────────────────────────────────
+   FOOTER — Herencia + Flexbox
+   ────────────────────────────────────────────────────────────── */
+.footer {
+  background-color: var(--negro);
+  color: var(--texto-muted);        /* HEREDA a todos los hijos */
+  border-top: 2px solid var(--rojo);
+  padding: clamp(2rem, 4vw, 3.5rem) 5% 1.5rem;
+}
+
+.footer-contenido {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.5rem;
+  margin-bottom: 2rem;
+  /* color y font: HEREDADOS de .footer */
+}
+
+.footer-col {
+  flex: 1 1 180px;
+  /* color: hereda .footer → body */
+}
+
+.footer-logo {
+  font-family: 'Oswald', sans-serif;
+  font-size: clamp(0.9rem, 2vw, 1.1rem);
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  color: var(--crema);              /* sobreescribe color heredado */
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.footer-col p {
+  font-size: 0.75rem;
+  margin-bottom: 0.3rem;
+  /* color: hereda texto-muted del .footer */
+}
+
+.footer-col h4 {
+  color: var(--crema);
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  margin-bottom: 0.75rem;
+}
+
+.footer-col ul { display: flex; flex-direction: column; gap: 0.4rem; }
+.footer-col a  {
+  font-size: 0.72rem;
+  color: inherit;                   /* inherit explícito */
+  transition: color 0.2s;
+}
+.footer-col a:hover { color: var(--rojo); }
+
+.footer-clasif { color: var(--rojo) !important; font-size: 0.65rem !important; }
+
+.footer-aviso {
+  border-top: 1px solid var(--gris-borde);
+  padding-top: 1rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.05em;
+  line-height: 1.6;
+  /* color: hereda texto-muted del .footer */
+}
+
+/* ============================================================
+   4. POSITION: FIXED — Botón flotante
+   ============================================================ */
+.fab-alerta {
+  position: fixed;
+  bottom: 2rem; right: 2rem;
+  width: 52px; height: 52px;
+  background-color: var(--rojo);
+  color: var(--crema);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  box-shadow: 0 0 20px rgba(204,0,0,0.4);
+  z-index: 998;
+  text-decoration: none;
+  transition: transform 0.2s, background-color 0.2s;
+  animation: pulso-fab 3s ease-in-out infinite;
+}
+
+@keyframes pulso-fab {
+  0%, 100% { box-shadow: 0 0 20px rgba(204,0,0,0.4); }
+  50%       { box-shadow: 0 0 35px rgba(204,0,0,0.7); }
+}
+
+.fab-alerta:hover {
+  transform: scale(1.1) rotate(20deg);
+  background-color: var(--rojo-suave);
+}
+
+/* ============================================================
+   5. MEDIA QUERIES — SISTEMA MOBILE FIRST
+   Breakpoints: 480 / 768 / 1024 / 1200
+   ============================================================ */
+
+/* ── xs: hasta 480px — estilos base ya definidos arriba ─── */
+
+/* ── sm: teléfonos grandes ── */
+@media (min-width: 480px) {
+
+  .navbar {
+    flex-wrap: nowrap;
+    justify-content: space-between;
+  }
+
+  .nav-toggle { display: none; }
+
+  /* Clasificación: 3 en fila a partir de 480px */
+  .clases-flex { min-height: 320px; }
+
+  /* Estadísticas: siempre visible */
+  .stats-flex { min-height: 180px; }
+}
+
+/* ── md: tablets ── */
+@media (min-width: 768px) {
+
+  /* Navbar: fila completa */
+  .navbar {
+    padding: 0.85rem 5%;
+    gap: 0;
+  }
+
+  .nav-links {
+    flex-wrap: nowrap;
+    gap: 1.75rem;
+    justify-content: flex-end;
+  }
+
+  /* Tabla: restaurar como tabla real */
+  .tabla-registros thead { display: table-header-group; }
+
+  .tabla-registros thead tr {
+    display: table-row;
+    background-color: var(--gris-medio);
+    border-bottom: 2px solid var(--rojo);
+  }
+
+  .tabla-registros th {
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--texto-muted);
+  }
+
+  .tabla-registros tbody tr {
+    display: table-row;
+    margin-bottom: 0;
+    border-radius: 0;
+    padding: 0;
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid var(--gris-borde);
+  }
+
+  .tabla-registros tbody tr:hover { background-color: var(--gris-medio); }
+  .tabla-registros .fila-alerta td:first-child  { border-left: 3px solid var(--amarillo); }
+  .tabla-registros .fila-denegada td:first-child { border-left: 3px solid var(--rojo); }
+
+  .tabla-registros td {
+    display: table-cell;
+    padding: 0.75rem 1rem;
+    border-bottom: none;
+    font-size: 0.82rem;
+  }
+
+  .tabla-registros td::before { display: none; }
+  .col-ubicacion { display: table-cell; }
+
+  /* Clasificación: align-self visible con altura fija */
+  .clases-flex { min-height: 420px; }
+  .stats-flex  { min-height: 200px; }
+
+  .stat-top    { align-self: flex-start; }
+  .stat-center { align-self: center; }
+  .stat-bottom { align-self: flex-end; }
+  .stat-item   {
+    border-right: 1px solid var(--gris-borde);
+    border-bottom: none;
+  }
+  .stat-item:last-child { border-right: none; }
+}
+
+/* ── lg: desktop ── */
+@media (min-width: 1024px) {
+
+  .seccion { padding: clamp(4rem, 6vw, 6rem) 6%; }
+
+  /* Agentes en una sola fila */
+  .personal-flex { flex-wrap: nowrap; }
+
+  .clases-flex   { min-height: 460px; }
+}
+
+/* ── xl: pantallas grandes ── */
+@media (min-width: 1200px) {
+
+  .entradas-flex { gap: 1.5rem; }
+  .scp-card      { flex-basis: 280px; }
+
+  /* Instalaciones: 4 en fila */
+  .instalaciones-grid { flex-wrap: nowrap; }
+  .instalacion-card   { flex: 1; }
+}
+
+/* ── Accesibilidad: reducir movimiento ── */
+@media (prefers-reduced-motion: reduce) {
+  .logo-simbolo      { animation: none; }
+  .alerta-global     { animation: none; }
+  .estado-dot        { animation: none; }
+  .fab-alerta        { animation: none; transition: none; }
+  .scp-card          { transition: none; }
+}
+
+/* ── Dark mode (el diseño ya es oscuro, ajustes mínimos) ── */
+@media (prefers-color-scheme: light) {
+  body {
+    background-color: #1a1a1a;
+    color: var(--texto);
+  }
+}
+
+/* ── Impresión ── */
+@media print {
+  .alerta-global, .navbar .nav-links,
+  .fab-alerta, .hero-clasificado,
+  .hero-acciones { display: none !important; }
+
+  body   { background: #fff; color: #000; font-size: 11pt; }
+  .seccion { padding: 1rem 0; page-break-inside: avoid; }
+  .scp-card, .clase-card { border: 1px solid #ccc; break-inside: avoid; }
+  .redactado { background-color: #000; }
+
+  /* Restaurar tabla para impresión */
+  .tabla-registros thead    { display: table-header-group; }
+  .tabla-registros tbody tr { display: table-row; border: none; }
+  .tabla-registros td       { display: table-cell; border-bottom: 1px solid #ccc; }
+  .tabla-registros td::before { display: none; }
+}
+
+/* ── max-width: ajuste móvil muy pequeño ── */
+@media (max-width: 480px) {
+
+  .navbar {
+    flex-wrap: wrap;
+    padding: 0.75rem 5%;
+    gap: 0.5rem;
+  }
+
+  .nav-toggle { display: block; }
+
+  .nav-links {
+    display: none; /* se mostraría con JS, aquí solo el CSS */
+    flex-direction: column;
+    width: 100%;
+    gap: 0.5rem;
+    padding: 0.5rem 0;
+  }
+
+  .hero { min-height: 80vh; }
+
+  .clases-flex {
+    min-height: auto;
+    align-items: stretch;
+  }
+  .clase-safe-card, .clase-euclid-card, .clase-keter-card {
+    align-self: auto;
+    max-width: 100%;
+  }
+
+  .stats-flex   { min-height: auto; align-items: center; }
+  .stat-top, .stat-center, .stat-bottom { align-self: auto; }
+  .stat-item {
+    border-right: none;
+    border-bottom: 1px solid var(--gris-borde);
+  }
+
+  .agente-card { flex-direction: column; align-items: flex-start; }
+
+  .fab-alerta { bottom: 1rem; right: 1rem; width: 44px; height: 44px; font-size: 1rem; }
+}

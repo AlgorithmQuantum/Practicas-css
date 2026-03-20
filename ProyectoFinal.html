@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SCP Foundation · Base de Datos Clasificada</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Special+Elite&family=Share+Tech+Mono&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="proyecto.css"/>
+</head>
+<body>
+
+  <!-- =====================================================
+       ALERTA GLOBAL: position fixed — visible en todo momento
+       ===================================================== -->
+  <div class="alerta-global">
+    ⚠ ACCESO RESTRINGIDO · NIVEL 3 REQUERIDO · TODA ACTIVIDAD ES MONITOREADA
+  </div>
+
+  <!-- =====================================================
+       NAVBAR — Flexbox: justify-content, align-items
+       position: sticky — se queda arriba al hacer scroll
+       ===================================================== -->
+  <nav class="navbar">
+    <div class="nav-logo">
+      <span class="logo-simbolo">☣</span>
+      <div class="logo-texto">
+        <span class="logo-titulo">SCP FOUNDATION</span>
+        <span class="logo-lema">Asegurar · Contener · Proteger</span>
+      </div>
+    </div>
+    <button class="nav-toggle" aria-label="Menú">☰</button>
+    <ul class="nav-links">
+      <li><a href="#entradas">Entradas</a></li>
+      <li><a href="#clasificacion">Clasificación</a></li>
+      <li><a href="#personal">Personal</a></li>
+      <li><a href="#instalaciones">Instalaciones</a></li>
+      <li><a href="#protocolos">Protocolos</a></li>
+      <li><a href="#acceso" class="nav-acceso">Acceso</a></li>
+    </ul>
+  </nav>
+
+  <!-- =====================================================
+       HERO — Flexbox: align-items center, justify-content center
+       Herencia: color y font-family definidos en body
+       ===================================================== -->
+  <header class="hero">
+    <!-- position: absolute — elementos decorativos fuera del flujo -->
+    <div class="hero-clasificado">TOP SECRET</div>
+    <div class="hero-expediente">EXPEDIENTE #0001-ES</div>
+
+    <div class="hero-contenido">
+      <p class="hero-nivel">NIVEL DE AUTORIZACIÓN: ████</p>
+      <h1>Base de Datos<br/><em>SCP Foundation</em></h1>
+      <p class="hero-sub">
+        La Fundación SCP opera en las sombras, asegurando que la normalidad se mantenga
+        y que las anomalías que amenazan la existencia humana sean contenidas.
+        <span class="redactado">███████████████████████████</span>
+      </p>
+      <div class="hero-acciones">
+        <a href="#entradas" class="btn btn-peligro">Ver Entradas SCP</a>
+        <a href="#clasificacion" class="btn btn-ghost">Clasificación</a>
+      </div>
+    </div>
+
+    <!-- Indicadores de estado: position absolute -->
+    <div class="hero-estado">
+      <span class="estado-dot estado-activo"></span>
+      <span class="estado-texto">SISTEMA EN LÍNEA</span>
+    </div>
+  </header>
+
+  <!-- =====================================================
+       BANNER DE ADVERTENCIA — Herencia de color y tipografía
+       desde .advertencia-banda hacia todos sus hijos
+       ===================================================== -->
+  <div class="advertencia-banda">
+    <div class="advertencia-contenido">
+      <span class="adv-icono">⚠</span>
+      <p>Este documento contiene información sobre objetos y entidades anómalas.
+         La lectura no autorizada constituye una violación del Protocolo O5-██.
+         <span class="redactado">██████ ██████████ ██████████████████</span>
+      </p>
+    </div>
+  </div>
+
+  <!-- =====================================================
+       SECCIÓN: ENTRADAS SCP RECIENTES
+       Flexbox: flex-wrap, gap, flex-grow, flex-shrink
+       Herencia: color + font desde .entradas-seccion
+       position: relative en cards, absolute en badges
+       ===================================================== -->
+  <section id="entradas" class="seccion entradas-seccion">
+    <div class="seccion-encabezado">
+      <h2>Entradas Activas</h2>
+      <span class="sello-seccion">CLASIFICADO</span>
+    </div>
+    <p class="seccion-sub">Últimas anomalías registradas y aprobadas por el Comité O5.</p>
+
+    <div class="entradas-flex">
+
+      <!-- SCP-173 -->
+      <article class="scp-card clase-euclid">
+        <!-- position: absolute → badge de clase -->
+        <span class="clase-badge">EUCLID</span>
+        <span class="scp-numero">SCP-173</span>
+        <div class="scp-icono">🗿</div>
+        <h3 class="scp-nombre">La Escultura</h3>
+        <p class="scp-descripcion">
+          Objeto construido de hormigón y barras de refuerzo.
+          Se mueve con extrema velocidad cuando no está bajo
+          observación visual directa.
+          <span class="redactado">████████████████</span>
+        </p>
+        <div class="scp-footer">
+          <span class="scp-nivel">Nivel 2</span>
+          <a href="#" class="btn btn-mini">Leer expediente</a>
+        </div>
+      </article>
+
+      <!-- SCP-096 -->
+      <article class="scp-card clase-euclid scp-destacado">
+        <span class="clase-badge badge-alerta">EUCLID ⚠</span>
+        <span class="scp-numero">SCP-096</span>
+        <div class="scp-icono">😶</div>
+        <h3 class="scp-nombre">El Tímido</h3>
+        <p class="scp-descripcion">
+          Humanoide que permanece inactivo salvo cuando alguien
+          visualiza su rostro. Velocidad de persecución:
+          <span class="redactado">███</span> km/h. Tasa de supervivencia del objetivo: 0%.
+        </p>
+        <div class="scp-footer">
+          <span class="scp-nivel">Nivel 3</span>
+          <a href="#" class="btn btn-mini btn-alerta">⚠ Expediente restringido</a>
+        </div>
+      </article>
+
+      <!-- SCP-049 -->
+      <article class="scp-card clase-euclid">
+        <span class="clase-badge">EUCLID</span>
+        <span class="scp-numero">SCP-049</span>
+        <div class="scp-icono">🎭</div>
+        <h3 class="scp-nombre">El Doctor Peste</h3>
+        <p class="scp-descripcion">
+          Entidad con apariencia de médico medieval. Capaz de matar
+          con el tacto e intentar "curar" a sus víctimas.
+          Ha expresado conocimiento de una <span class="redactado">████████████</span>.
+        </p>
+        <div class="scp-footer">
+          <span class="scp-nivel">Nivel 2</span>
+          <a href="#" class="btn btn-mini">Leer expediente</a>
+        </div>
+      </article>
+
+      <!-- SCP-682 -->
+      <article class="scp-card clase-keter">
+        <span class="clase-badge badge-keter">KETER ☣</span>
+        <span class="scp-numero">SCP-682</span>
+        <div class="scp-icono">🦎</div>
+        <h3 class="scp-nombre">Reptil Difícil de Destruir</h3>
+        <p class="scp-descripcion">
+          Reptil de gran tamaño con capacidad de regeneración extrema.
+          Muestra odio activo hacia toda forma de vida.
+          Todos los intentos de neutralización han fracasado.
+          <span class="redactado">████████████████████████████</span>
+        </p>
+        <div class="scp-footer">
+          <span class="scp-nivel">Nivel 4</span>
+          <a href="#" class="btn btn-mini btn-keter">☣ Nivel 4 requerido</a>
+        </div>
+      </article>
+
+      <!-- SCP-106 -->
+      <article class="scp-card clase-keter">
+        <span class="clase-badge badge-keter">KETER ☣</span>
+        <span class="scp-numero">SCP-106</span>
+        <div class="scp-icono">👴</div>
+        <h3 class="scp-nombre">El Anciano</h3>
+        <p class="scp-descripcion">
+          Humanoide corrosivo que puede atravesar materia sólida.
+          Crea un "espacio de bolsillo" propio donde lleva a sus víctimas.
+          <span class="redactado">████████████████</span> método de recontención activo.
+        </p>
+        <div class="scp-footer">
+          <span class="scp-nivel">Nivel 3</span>
+          <a href="#" class="btn btn-mini btn-keter">☣ Nivel 4 requerido</a>
+        </div>
+      </article>
+
+      <!-- SCP-999 -->
+      <article class="scp-card clase-safe">
+        <span class="clase-badge badge-safe">SAFE ✓</span>
+        <span class="scp-numero">SCP-999</span>
+        <div class="scp-icono">🟠</div>
+        <h3 class="scp-nombre">El Blob Feliz</h3>
+        <p class="scp-descripcion">
+          Masa gelatinosa de color naranja con propiedades
+          eufóricas y terapéuticas. Único SCP con clasificación Safe
+          que es considerado un activo para el bienestar del personal.
+        </p>
+        <div class="scp-footer">
+          <span class="scp-nivel">Nivel 1</span>
+          <a href="#" class="btn btn-mini btn-safe">✓ Acceso abierto</a>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- =====================================================
+       SECCIÓN: SISTEMA DE CLASIFICACIÓN
+       Alineación Flexbox: justify-content, align-items,
+       align-self por item, place-content
+       ===================================================== -->
+  <section id="clasificacion" class="seccion clasificacion-seccion">
+    <div class="seccion-encabezado">
+      <h2>Sistema de Clasificación</h2>
+      <span class="sello-seccion sello-rojo">PROTOCOLO O5</span>
+    </div>
+    <p class="seccion-sub">Cada anomalía es evaluada y asignada a una de tres clases según su peligrosidad y dificultad de contención.</p>
+
+    <div class="clases-flex">
+
+      <div class="clase-card clase-safe-card">
+        <!-- align-self: flex-start → esta card se queda arriba -->
+        <div class="clase-header">
+          <span class="clase-icono">✓</span>
+          <h3>SAFE</h3>
+        </div>
+        <p>Anomalías suficientemente entendidas para ser contenidas de forma fiable y que no representan amenaza activa.</p>
+        <ul class="clase-lista">
+          <li>Contención pasiva</li>
+          <li>Procedimientos estándar</li>
+          <li>Interacción controlada permitida</li>
+        </ul>
+        <div class="clase-stat">
+          <span class="clase-porcentaje">34%</span>
+          <span>de las entradas activas</span>
+        </div>
+      </div>
+
+      <div class="clase-card clase-euclid-card">
+        <!-- align-self: center → centrada verticalmente (resaltada) -->
+        <div class="clase-header">
+          <span class="clase-icono">⬡</span>
+          <h3>EUCLID</h3>
+        </div>
+        <span class="clase-destacada-label">CLASE MÁS COMÚN</span>
+        <p>Anomalías cuyo comportamiento no es completamente predecible o cuya contención requiere recursos significativos.</p>
+        <ul class="clase-lista">
+          <li>Contención activa</li>
+          <li>Monitoreo permanente</li>
+          <li>Protocolos de emergencia</li>
+        </ul>
+        <div class="clase-stat">
+          <span class="clase-porcentaje">51%</span>
+          <span>de las entradas activas</span>
+        </div>
+      </div>
+
+      <div class="clase-card clase-keter-card">
+        <!-- align-self: flex-end → esta card se queda abajo -->
+        <div class="clase-header">
+          <span class="clase-icono">☣</span>
+          <h3>KETER</h3>
+        </div>
+        <p>Anomalías extremadamente difíciles o imposibles de contener de forma consistente. Amenaza existencial potencial.</p>
+        <ul class="clase-lista">
+          <li>Contención máxima</li>
+          <li>Personal nivel 4+</li>
+          <li>Protocolos Apagón activos</li>
+        </ul>
+        <div class="clase-stat">
+          <span class="clase-porcentaje">15%</span>
+          <span>de las entradas activas</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =====================================================
+       SECCIÓN: ESTADÍSTICAS GLOBALES
+       Flexbox: align-items con align-self por item individual
+       Herencia: color desde .stats-seccion → hijos
+       ===================================================== -->
+  <section id="stats" class="seccion stats-seccion">
+    <div class="seccion-encabezado">
+      <h2>Estado Global</h2>
+      <span class="sello-seccion">EN TIEMPO REAL</span>
+    </div>
+
+    <div class="stats-flex">
+
+      <div class="stat-item stat-top">
+        <span class="stat-numero">2,847</span>
+        <span class="stat-label">Anomalías actualmente contenidas</span>
+      </div>
+
+      <div class="stat-item stat-center">
+        <span class="stat-numero">████</span>
+        <span class="stat-label">Instalaciones de contención activas</span>
+      </div>
+
+      <div class="stat-item stat-bottom">
+        <span class="stat-numero">19</span>
+        <span class="stat-label">Escenarios de fin del mundo prevenidos</span>
+      </div>
+
+      <div class="stat-item stat-center">
+        <span class="stat-numero">O5-13</span>
+        <span class="stat-label">Miembros del Comité de Supervisión</span>
+      </div>
+
+      <div class="stat-item stat-top">
+        <span class="stat-numero">0</span>
+        <span class="stat-label">Brechas de contención XK sin resolver</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =====================================================
+       SECCIÓN: PERSONAL Y ROLES
+       Flexbox: flex-direction row, align-items center
+       align-self individual por tarjeta
+       position: relative + absolute (badge de rango)
+       ===================================================== -->
+  <section id="personal" class="seccion personal-seccion">
+    <div class="seccion-encabezado">
+      <h2>Personal Activo</h2>
+      <span class="sello-seccion">CONFIDENCIAL</span>
+    </div>
+    <p class="seccion-sub">Agentes y personal autorizado en operaciones activas. Datos parcialmente redactados por seguridad.</p>
+
+    <div class="personal-flex">
+
+      <article class="agente-card">
+        <div class="agente-avatar">Dr.</div>
+        <div class="agente-info">
+          <h3>Dr. ████████</h3>
+          <span class="agente-rol">Investigador Senior · Nivel 4</span>
+          <p>Especialista en anomalías cognitohazardosas. Responsable de <span class="redactado">████</span> neutralizaciones exitosas.</p>
+        </div>
+        <span class="agente-badge">NIVEL 4</span>
+      </article>
+
+      <article class="agente-card agente-destacado">
+        <div class="agente-avatar agente-o5">O5</div>
+        <div class="agente-info">
+          <h3>O5-██</h3>
+          <span class="agente-rol">Miembro del Comité de Supervisión</span>
+          <p>Identidad, ubicación y naturaleza completamente redactadas.
+          <span class="redactado">████████████████████████████████████████</span></p>
+        </div>
+        <span class="agente-badge badge-o5">O5-SIGMA</span>
+      </article>
+
+      <article class="agente-card">
+        <div class="agente-avatar">MTF</div>
+        <div class="agente-info">
+          <h3>Alfa-1 "Guardias Rojos"</h3>
+          <span class="agente-rol">Fuerza de Tarea Móvil · Nivel 3</span>
+          <p>Unidad de élite asignada directamente al Comité O5. Especialización: <span class="redactado">████████████████</span>.</p>
+        </div>
+        <span class="agente-badge">MTF ALFA</span>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- =====================================================
+       SECCIÓN: INSTALACIONES
+       Flexbox: flex-wrap, justify-content space-between
+       position: relative en cards, absolute en etiquetas
+       Tipografía fluida con clamp()
+       ===================================================== -->
+  <section id="instalaciones" class="seccion instalaciones-seccion">
+    <div class="seccion-encabezado">
+      <h2>Instalaciones de Contención</h2>
+      <span class="sello-seccion sello-rojo">UBICACIÓN REDACTADA</span>
+    </div>
+    <p class="seccion-sub">Cada instalación está diseñada para contener clases específicas de anomalías.</p>
+
+    <div class="instalaciones-grid">
+
+      <div class="instalacion-card">
+        <span class="inst-etiqueta">ACTIVA</span>
+        <div class="inst-icono">🏗</div>
+        <h3>Área-14</h3>
+        <p>Especializada en objetos mecánicos y tecnológicos anómalos. Contiene actualmente <span class="redactado">███</span> objetos clase Safe y Euclid.</p>
+        <div class="inst-info">
+          <span>Capacidad: ████</span>
+          <span class="inst-nivel">Nivel 2+</span>
+        </div>
+      </div>
+
+      <div class="instalacion-card inst-alerta">
+        <span class="inst-etiqueta inst-etiqueta-roja">⚠ BRECHA MENOR</span>
+        <span class="inst-corner">Contención activa</span>
+        <div class="inst-icono">⚗</div>
+        <h3>Sitio-19</h3>
+        <p>La instalación más grande de la Fundación. Aloja algunos de los SCPs más peligrosos conocidos, incluyendo SCP-682.</p>
+        <div class="inst-info">
+          <span>Capacidad: ████</span>
+          <span class="inst-nivel inst-nivel-rojo">Nivel 4+</span>
+        </div>
+      </div>
+
+      <div class="instalacion-card">
+        <span class="inst-etiqueta">ACTIVA</span>
+        <div class="inst-icono">🔬</div>
+        <h3>Área-12</h3>
+        <p>Centro de investigación médica y biológica. Contiene entidades de naturaleza orgánica y anomalías de contagio.</p>
+        <div class="inst-info">
+          <span>Capacidad: ████</span>
+          <span class="inst-nivel">Nivel 3+</span>
+        </div>
+      </div>
+
+      <div class="instalacion-card inst-destruida">
+        <span class="inst-etiqueta inst-etiqueta-gris">DESTRUIDA</span>
+        <div class="inst-icono">💀</div>
+        <h3>Sitio-██</h3>
+        <p>Instalación destruida durante el Incidente <span class="redactado">████████████</span>. Todos los expedientes relacionados han sido reclasificados.</p>
+        <div class="inst-info">
+          <span>Capacidad: N/A</span>
+          <span class="inst-nivel">Acceso denegado</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =====================================================
+       SECCIÓN: PROTOCOLOS DE EMERGENCIA
+       Tipografía fluida con clamp()
+       Herencia de color desde padre a hijos
+       Media queries: layout cambia en tablet y desktop
+       ===================================================== -->
+  <section id="protocolos" class="seccion protocolos-seccion">
+    <div class="seccion-encabezado">
+      <h2>Protocolos de Emergencia</h2>
+      <span class="sello-seccion sello-rojo">USO RESTRINGIDO</span>
+    </div>
+    <p class="seccion-sub">Procedimientos activos en caso de brecha de contención o evento de clase K.</p>
+
+    <div class="protocolos-grid">
+
+      <div class="protocolo-item">
+        <div class="protocolo-num">XK</div>
+        <div class="protocolo-texto">
+          <h4>Escenario Fin del Mundo</h4>
+          <p>Protocolo de último recurso ante la destrucción total de la civilización. Requiere voto unánime del Comité O5. <span class="redactado">████████████████████████████████</span></p>
+        </div>
+      </div>
+
+      <div class="protocolo-item protocolo-activo">
+        <div class="protocolo-num">ZK</div>
+        <div class="protocolo-texto">
+          <h4>Evento de Realidad Cero</h4>
+          <p>Colapso de la realidad a nivel memético o existencial. El protocolo Thaumiel está activo como contramedida.</p>
+        </div>
+      </div>
+
+      <div class="protocolo-item">
+        <div class="protocolo-num">CK</div>
+        <div class="protocolo-texto">
+          <h4>Reestructuración de Clase</h4>
+          <p>Reconfiguración completa de la realidad. Historia y memoria alteradas. <span class="redactado">████████████████</span> instancias registradas.</p>
+        </div>
+      </div>
+
+      <div class="protocolo-item">
+        <div class="protocolo-num">AK</div>
+        <div class="protocolo-texto">
+          <h4>Deidad Anómica</h4>
+          <p>Emergencia de una entidad capaz de alterar las leyes fundamentales de la física. Protocolo de contención divina en espera.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =====================================================
+       SECCIÓN: TABLA DE ENTRADAS RECIENTES
+       Media queries: tabla → tarjetas en móvil
+       ===================================================== -->
+  <section id="acceso" class="seccion tabla-seccion">
+    <div class="seccion-encabezado">
+      <h2>Registro de Accesos Recientes</h2>
+      <span class="sello-seccion">AUDITADO</span>
+    </div>
+    <p class="seccion-sub">Últimas consultas al sistema. Toda actividad queda registrada y es revisada por el Departamento de Seguridad.</p>
+
+    <div class="tabla-wrapper">
+      <table class="tabla-registros">
+        <thead>
+          <tr>
+            <th>ID Agente</th>
+            <th>SCP Consultado</th>
+            <th>Nivel</th>
+            <th class="col-ubicacion">Ubicación</th>
+            <th>Fecha</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-label="ID Agente">AG-████-7</td>
+            <td data-label="SCP">SCP-173</td>
+            <td data-label="Nivel"><span class="nivel-badge nivel-2">Nv. 2</span></td>
+            <td data-label="Ubicación" class="col-ubicacion">Sitio-19, Sala ██</td>
+            <td data-label="Fecha">██/██/████</td>
+            <td data-label="Estado"><span class="estado-badge estado-ok">Autorizado</span></td>
+          </tr>
+          <tr class="fila-alerta">
+            <td data-label="ID Agente">AG-████-3</td>
+            <td data-label="SCP">SCP-682</td>
+            <td data-label="Nivel"><span class="nivel-badge nivel-4">Nv. 4</span></td>
+            <td data-label="Ubicación" class="col-ubicacion"><span class="redactado">████████</span></td>
+            <td data-label="Fecha">██/██/████</td>
+            <td data-label="Estado"><span class="estado-badge estado-alerta">Bajo revisión</span></td>
+          </tr>
+          <tr>
+            <td data-label="ID Agente">AG-████-12</td>
+            <td data-label="SCP">SCP-049</td>
+            <td data-label="Nivel"><span class="nivel-badge nivel-2">Nv. 2</span></td>
+            <td data-label="Ubicación" class="col-ubicacion">Área-14, Lab ██</td>
+            <td data-label="Fecha">██/██/████</td>
+            <td data-label="Estado"><span class="estado-badge estado-ok">Autorizado</span></td>
+          </tr>
+          <tr class="fila-denegada">
+            <td data-label="ID Agente"><span class="redactado">████████</span></td>
+            <td data-label="SCP">SCP-███</td>
+            <td data-label="Nivel"><span class="nivel-badge nivel-5">Nv. ██</span></td>
+            <td data-label="Ubicación" class="col-ubicacion"><span class="redactado">████████████</span></td>
+            <td data-label="Fecha">██/██/████</td>
+            <td data-label="Estado"><span class="estado-badge estado-denegado">DENEGADO</span></td>
+          </tr>
+          <tr>
+            <td data-label="ID Agente">AG-████-8</td>
+            <td data-label="SCP">SCP-999</td>
+            <td data-label="Nivel"><span class="nivel-badge nivel-1">Nv. 1</span></td>
+            <td data-label="Ubicación" class="col-ubicacion">Área-12, Zona Recreativa</td>
+            <td data-label="Fecha">██/██/████</td>
+            <td data-label="Estado"><span class="estado-badge estado-ok">Autorizado</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       FOOTER — Herencia de color, Flexbox
+       ===================================================== -->
+  <footer class="footer">
+    <div class="footer-contenido">
+      <div class="footer-col">
+        <span class="footer-logo">☣ SCP FOUNDATION</span>
+        <p>Asegurar · Contener · Proteger</p>
+        <p class="footer-clasif">Nivel de clasificación: <span class="redactado">████</span></p>
+      </div>
+      <div class="footer-col">
+        <h4>Accesos rápidos</h4>
+        <ul>
+          <li><a href="#entradas">Base de datos</a></li>
+          <li><a href="#clasificacion">Sistema de clases</a></li>
+          <li><a href="#protocolos">Protocolos</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contacto seguro</h4>
+        <p>Canal encriptado: <span class="redactado">████████████</span></p>
+        <p>Frecuencia de emergencia: ██.█ MHz</p>
+      </div>
+    </div>
+    <div class="footer-aviso">
+      <p>© ████ SCP Foundation · Todos los derechos reservados ·
+         Este documento es propiedad de la Fundación SCP.
+         La divulgación no autorizada está penada con <span class="redactado">████████████████████████████</span>
+      </p>
+    </div>
+  </footer>
+
+  <!-- Botón flotante FIXED -->
+  <a href="#entradas" class="fab-alerta" title="Entradas SCP">☣</a>
+
+</body>
+</html>
